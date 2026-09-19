@@ -148,7 +148,7 @@ function generateInstallCommand(extensionId) {
 
     // manifest
     cmd += '# 建立 manifest\n';
-    cmd += '$hostPath = "$installDir\\line_opener_host.bat" -replace \'\\\\\', \'\\\\\\\\\'\n';
+    cmd += '$hostPath = "$installDir\\line_opener_host.bat" -replace \'\\\\\', \'\\\\\'\n';
     cmd += '$manifest = @"\n';
     cmd += '{\n';
     cmd += '  "name": "com.line.opener",\n';

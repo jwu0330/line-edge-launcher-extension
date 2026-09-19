@@ -231,19 +231,30 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre>
             event.target.classList.add('active');
         }
         
+        // ============================================================
+        // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
+        //    • 正式版（Chrome Web Store）：fhgjojnifekiifaenchgammalffepbeg
+        //    • 測試版（載入未封裝項目）  ：oppdldnoihbknlmdggabmhfiicpadfpd
+        //    ⚠️ 目前設為「測試版」，正式上架前請改成正式版 ID。
+        // ============================================================
+        const DEFAULT_EXTENSION_ID = 'oppdldnoihbknlmdggabmhfiicpadfpd'; // ← 目前：測試版
+
         function getExtensionId() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('id') || 'fhgjojnifekiifaenchgammalffepbeg';
+            // 網址可用 ?id=xxxx 覆寫；否則使用上方設定的預設 ID
+            return urlParams.get('id') || DEFAULT_EXTENSION_ID;
         }
         
         function copyInstall() {
             const command = document.getElementById('installCommand').textContent;
-            copyToClipboard(command, event.target);
+            // 補結尾換行：讓貼到 PowerShell 後最後一行會自動執行，不用再多按一次 Enter
+            copyToClipboard(command + '\n', event.target);
         }
-        
+
         function copyUninstall() {
             const command = document.getElementById('uninstallCommand').textContent;
-            copyToClipboard(command, event.target);
+            // 補結尾換行：解除安裝指令最後一行同樣自動執行，不用再多按一次 Enter
+            copyToClipboard(command + '\n', event.target);
         }
         
         function copyToClipboard(text, btn) {
