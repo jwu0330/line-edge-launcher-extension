@@ -104,13 +104,13 @@ function showInstallGuide() {
             // 複製網址到剪貼簿
             navigator.clipboard.writeText(edgeLineUrl).then(() => {
                 const originalText = edgeLineBtn.textContent;
-                edgeLineBtn.textContent = '✅ 已複製！請在 Edge 開啟';
+                edgeLineBtn.textContent = '已複製，打開 Edge 貼上';
                 setTimeout(() => {
                     edgeLineBtn.textContent = originalText;
-                }, 2500);
+                }, 3000);
             }).catch(err => {
                 console.error('複製失敗:', err);
-                alert('請手動複製此網址：\n' + edgeLineUrl);
+                alert('請手動複製此網址，貼到 Edge 瀏覽器的網址列：\n' + edgeLineUrl);
             });
         });
     }

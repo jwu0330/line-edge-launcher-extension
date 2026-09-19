@@ -90,6 +90,16 @@
         .hidden {
             display: none;
         }
+        .hint {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #8b7355;
+            background: #f5f0e8;
+            border: 1px solid #e8dcc8;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin: -4px 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -110,14 +120,15 @@
             </div>
             
             <div class="message" style="text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 15px;">
-                <strong>📋 安裝步驟：</strong><br>
-                1️⃣ 首次使用？先安裝 Edge LINE<br>
-                2️⃣ 安裝 Native Host（複製指令執行）<br>
-                3️⃣ 重新開啟此擴充功能即可使用
+                <strong>安裝步驟：</strong><br>
+                1. 沒裝過 LINE？先安裝到 Edge<br>
+                2. 複製指令貼到終端機執行<br>
+                3. 重新開啟此擴充功能即可使用
             </div>
 
-            <button id="edgeLineBtn" class="button" style="background: #00B900;">📱 安裝 Edge LINE</button>
-            <a href="#" id="downloadBtn" class="button">🚀 安裝 Native Host</a>
+            <button id="edgeLineBtn" class="button" style="background: #00B900;">安裝 LINE 到 Edge</button>
+            <div class="hint">Edge 是 Windows 內建的瀏覽器（工作列上藍綠色圖示），跟 Chrome 不同。打開 Edge，把複製的網址貼到網址列即可。</div>
+            <a href="#" id="downloadBtn" class="button">執行安裝腳本</a>
         </div>
 
         <!-- 已安裝 - 執行中 -->

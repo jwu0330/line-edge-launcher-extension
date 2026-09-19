@@ -40,12 +40,19 @@
         .copy-big.copied { background: #3f8a4e; }
 
         .edge-note {
-            background: #fff7ec; border: 1px solid #f0d9b0; border-radius: 10px;
-            padding: 12px 16px; font-size: 14px; color: #a8701a; text-align: center; font-weight: 600;
+            background: #fdecec; border: 2px solid #e0a0a0; border-radius: 10px;
+            padding: 14px 16px; font-size: 16px; color: #a8321a; text-align: center; font-weight: 800;
         }
+        .edge-note .big { font-size: 19px; }
+
+        .step .copy-big { margin: 10px 0 0; font-size: 15px; padding: 13px 8px; }
 
         details { margin-top: 18px; border-top: 1px solid #ece2d0; padding-top: 12px; }
-        summary { cursor: pointer; color: #8b7355; font-size: 14px; list-style: none; }
+        summary {
+            cursor: pointer; color: #6b5a47; font-size: 15px; font-weight: 700;
+            list-style: none; display: inline-block; padding: 6px 12px;
+            background: #f0e6d4; border-radius: 8px;
+        }
         summary::-webkit-details-marker { display: none; }
         summary::before { content: '▸ '; }
         details[open] summary::before { content: '▾ '; }
@@ -80,13 +87,14 @@
         <div class="steps">
             <div class="step">
                 <div class="num">1</div>
-                <h3>開啟終端機</h3>
-                <p>按 <span class="kbd">⊞ Win</span> + <span class="kbd">X</span>,點<span class="hl">「終端機」</span></p>
+                <h3>打開終端機</h3>
+                <p>按 <span class="kbd">⊞ Win</span> 鍵,直接打字<span class="hl">「終端機」</span>,按 <span class="kbd">Enter</span> 開啟</p>
             </div>
             <div class="step">
                 <div class="num">2</div>
-                <h3>貼上並執行</h3>
-                <p>複製下方指令 → 在終端機按 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
+                <h3>複製、貼上、執行</h3>
+                <p>按下面按鈕複製指令 → 在終端機按 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
+                <button class="copy-big" onclick="copyInstall()">📋 複製自動化執行指令</button>
             </div>
             <div class="step">
                 <div class="num">3</div>
@@ -95,11 +103,10 @@
             </div>
         </div>
 
-        <button class="copy-big" onclick="copyInstall()">📋 複製自動化執行指令</button>
-        <div class="edge-note">⚠ LINE 是用 Edge(另一個瀏覽器)開啟,不是 Chrome</div>
+        <div class="edge-note">⚠ <span class="big">注意：LINE 會在「Edge」開啟，不是 Chrome！</span><br>Edge 是 Windows 內建的另一個瀏覽器(工作列上藍綠色波浪圖示 🌊)</div>
 
         <details>
-            <summary>查看更多(指令內容 / Edge 提醒 / 解除安裝)</summary>
+            <summary>📌 點這裡查看更多說明(指令內容 / Edge 提醒 / 解除安裝)</summary>
             <div class="more">
                 <h4>指令內容</h4>
                 <div class="command-box"><pre id="installCommand">載入中...</pre></div>
@@ -147,7 +154,7 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
         function copyToClipboard(text, btn) {
             navigator.clipboard.writeText(text).then(() => {
                 const t = btn.textContent;
-                btn.textContent = '✅ 已複製,去終端機貼上';
+                btn.textContent = '✅ 已複製！回終端機按 Ctrl+V';
                 btn.classList.add('copied');
                 setTimeout(() => { btn.textContent = t; btn.classList.remove('copied'); }, 2500);
             }).catch(() => alert('複製失敗,請手動選取指令複製'));
