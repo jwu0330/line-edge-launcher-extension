@@ -11,8 +11,8 @@
   (renamed from the old name `line-pro` / 由舊名 `line-pro` 改名而來)
 - **Install page (GitHub Pages)**: https://jwu0330.github.io/line-edge-launcher-extension/install.html
 - Everything is committed and pushed to `master`. / 所有變更都已提交並推送到 `master`。
-- ⚠️ **`install.html` currently defaults to the TEST extension ID.** Before public launch, change it back to the Web Store ID (see §4).
-  ⚠️ **目前 `install.html` 預設用的是「測試版」擴充 ID**,正式上架前要改回上架版 ID(見 §4)。
+- ✅ **`install.html` now defaults to the Web Store (production) ID** `fhgjojnifekiifaenchgammalffepbeg` (release v2.5.0). For local unpacked testing, override with `install.html?id=<unpacked-id>` — do NOT change the production default.
+  ✅ **目前 `install.html` 預設已是「正式版(Web Store)」ID** `fhgjojnifekiifaenchgammalffepbeg`(release v2.5.0)。本機未封裝測試請用 `install.html?id=<未封裝ID>` 覆寫,別去動這個正式預設值。
 
 ---
 
@@ -122,7 +122,7 @@ Click Chrome extension icon
 
 ## 4. Before PUBLIC launch / 正式上架前檢查清單
 
-- [ ] In `docs/install.html`, set `DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'` (the Web Store ID). / 把 `DEFAULT_EXTENSION_ID` 改回上架版 ID。
+- [x] In `docs/install.html`, set `DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'` (the Web Store ID). / 把 `DEFAULT_EXTENSION_ID` 改回上架版 ID。**(done in v2.5.0)**
 - [ ] Push and hard-refresh; confirm the install page generates a host for the Web Store ID. / 推送後硬重整,確認安裝頁產生的是上架版 ID 的 host。
 - [ ] Rebuild the zip and upload the new version to the Chrome Web Store. / 重新打包並上傳新版到 Web Store。
 - [ ] Existing users must re-run the install command to get the fixed Native Host. / 舊使用者需重跑安裝指令才能拿到修好的 Native Host。

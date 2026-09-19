@@ -2,7 +2,7 @@
 
 一鍵從 Chrome 開啟 Edge 的 LINE，無確認對話框，完全自動化。
 
-[![Version](https://img.shields.io/badge/version-2.4.2-green.svg)](https://github.com/jwu0330/line-edge-launcher-extension/releases)
+[![Version](https://img.shields.io/badge/version-2.5.0-green.svg)](https://github.com/jwu0330/line-edge-launcher-extension/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
@@ -32,11 +32,9 @@
 ### 2. 安裝 Native Host
 
 1. 點擊 Chrome 工具列上的擴充圖示
-2. 點擊「🚀 開始安裝」
-3. 複製安裝指令
-4. 開啟 PowerShell（`Win + X`）
-5. 貼上並執行
-6. 回到 Chrome 點擊「🔄 重新檢測」
+2. 首次使用會顯示安裝引導，點「執行安裝腳本」開啟安裝頁
+3. 依安裝頁指示：複製指令 → 開啟 PowerShell（`Win + X`）→ 貼上執行
+4. 回到 Chrome 重新點一下擴充圖示（會自動偵測，無需按任何按鈕）
 
 ### 3. 完成！
 
@@ -68,8 +66,8 @@
 ### 點擊圖示沒反應？
 
 1. 確認已執行安裝指令
-2. 點擊「重新檢測」按鈕
-3. 重新載入擴充程式
+2. 重新點一下擴充圖示（會自動重新偵測）
+3. 必要時到 `chrome://extensions` 重新載入擴充程式
 
 ---
 
@@ -92,6 +90,11 @@ line-edge-launcher-extension/
 ---
 
 ## 📝 更新日誌
+
+### v2.5.0 (2026-09-20)
+- 🚀 正式發佈版：預設擴充 ID 切換為 Chrome Web Store 上架版 ID（`fhgjojni…`）
+- 📝 修正 README 與安裝頁提示中過時的操作教學（移除已不存在的「開始安裝 / 重新檢測」按鈕說明，改為「重新點圖示自動偵測」流程）
+- 🧹 移除 popup 未使用的 CSS（`.button.secondary`）
 
 ### v2.4.2 (2026-09-19)
 - 🐛 修復 Edge 改版後自動化失效問題（改用「鍵盤 Enter 開啟擴充選單 + 滑鼠點擊」的相容方案，取代已失效的 UIA Invoke/Toggle/Expand）

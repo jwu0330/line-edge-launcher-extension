@@ -132,14 +132,11 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
     <script>
         // ============================================================
         // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
-        //    • 正式版（Chrome Web Store）：fhgjojnifekiifaenchgammalffepbeg
-        //    • 測試版（載入未封裝項目）：akghapcbfibbmgglgkpnbahgdaakndem
-        //      ⚠️ 此測試 ID 是「依資料夾路徑」算出來的，換機器 / 換路徑會不同（見 HANDOFF P2）。
-        //         目前值對應路徑 E:\code\github\新增資料夾\line-edge-launcher-extension。
-        //         若在別台機器測試，請改成該機的實際 ID，或改用 install.html?id=<實際ID>。
-        //    ⚠️ 目前設為「測試版」，正式上架前請改成正式版 ID。
+        //    • 正式版（Chrome Web Store，目前使用）：fhgjojnifekiifaenchgammalffepbeg
+        //    • 測試版（載入未封裝項目）：ID 依資料夾路徑而定、每台機器不同（見 HANDOFF P2），
+        //      本機測試請改用 install.html?id=<未封裝ID> 覆寫，不要改動下面的正式預設值。
         // ============================================================
-        const DEFAULT_EXTENSION_ID = 'akghapcbfibbmgglgkpnbahgdaakndem'; // ← 目前：測試版（本機路徑推算）
+        const DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'; // ← 目前：正式版（Web Store）
 
         function getExtensionId() {
             const urlParams = new URLSearchParams(window.location.search);

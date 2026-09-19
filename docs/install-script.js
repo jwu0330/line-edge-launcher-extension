@@ -167,7 +167,7 @@ function generateInstallCommand(extensionId) {
     cmd += 'reg add "HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com.line.opener" /ve /t REG_SZ /d "$installDir\\com.line.opener.json" /f | Out-Null\n\n';
 
     cmd += 'Write-Host "安裝完成！(v3 - Edge 相容版)" -ForegroundColor Green\n';
-    cmd += 'Write-Host "請回到 Chrome 點擊擴充圖示，然後點擊『重新檢測』" -ForegroundColor Cyan';
+    cmd += 'Write-Host "請回到 Chrome 重新點一下擴充圖示即可（會自動偵測，無需按任何按鈕）" -ForegroundColor Cyan';
 
     return cmd;
 }
