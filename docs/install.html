@@ -7,74 +7,74 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
-            background: #fdfcfa; color: #4a3f33; line-height: 1.55;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         "Microsoft JhengHei", Helvetica, Arial, sans-serif;
+            background: #f6f8fa; color: #1f2328; line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        .page { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
-        h1 { font-size: 26px; font-weight: 700; text-align: center; }
-        .sub { text-align: center; color: #8b7355; font-size: 15px; margin: 6px 0 28px; }
+        .page { max-width: 900px; margin: 0 auto; padding: 44px 20px; }
+        h1 { font-size: 24px; font-weight: 600; text-align: center; }
+        .sub { text-align: center; color: #57606a; font-size: 14px; margin: 8px 0 28px; }
+        .hl { color: #0969da; font-weight: 600; }
 
-        /* 3 步驟橫向並排 */
-        .steps { display: flex; gap: 16px; }
-        .step {
-            flex: 1; background: #fff; border: 1px solid #ece2d0;
-            border-radius: 12px; padding: 18px;
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .card {
+            background: #fff; border: 1px solid #d0d7de;
+            border-radius: 6px; padding: 18px;
         }
-        .step .num {
-            width: 26px; height: 26px; border-radius: 50%;
-            background: #d4c4a8; color: #3a2f25; font-weight: 700; font-size: 14px;
-            display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px;
+        .step-no {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: #0969da; color: #fff; font-size: 13px; font-weight: 600;
+            margin-bottom: 10px;
         }
-        .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-        .step p { font-size: 13.5px; color: #6b5a47; }
-        .kbd { background: #2a2520; color: #f5f0e8; padding: 1px 7px; border-radius: 5px; font-size: 12.5px; font-weight: 700; }
-        .hl { color: #b8863b; font-weight: 700; }
-
-        .copy-big {
-            display: block; width: 100%; margin: 20px 0 12px;
-            background: #5aa469; color: #fff; border: none; border-radius: 12px;
-            padding: 16px; font-size: 18px; font-weight: 700; cursor: pointer;
-            transition: background .15s;
+        .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+        .card p { font-size: 13px; color: #57606a; }
+        .kbd {
+            display: inline-block; font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            font-size: 11px; color: #1f2328; background: #f6f8fa;
+            border: 1px solid #d0d7de; border-bottom-width: 2px; border-radius: 4px;
+            padding: 1px 5px; line-height: 1.4;
         }
-        .copy-big:hover { background: #4e9a5d; }
-        .copy-big.copied { background: #3f8a4e; }
+        .btn {
+            display: block; width: 100%; margin-top: 14px;
+            background: #0969da; color: #fff; border: 1px solid rgba(27,31,36,.15);
+            border-radius: 6px; padding: 10px 12px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background .12s;
+        }
+        .btn:hover { background: #0860ca; }
+        .btn.copied { background: #1a7f37; }
+        .btn.sm { width: auto; margin: 0 0 10px; padding: 6px 12px; font-size: 13px; }
 
-        .edge-note {
-            background: #fdecec; border: 1px solid #e8c0c0; border-radius: 8px;
-            padding: 10px 14px; font-size: 14px; color: #a8321a; text-align: center; font-weight: 600;
+        .note {
+            margin-top: 18px; padding: 10px 14px; font-size: 13px;
+            background: #fff8c5; border: 1px solid #d4a72c66; border-left: 3px solid #bf8700;
+            border-radius: 6px; color: #5c4813; text-align: center;
         }
 
-        .step .copy-big { margin: 10px 0 0; font-size: 15px; padding: 13px 8px; }
-
-        details { margin-top: 18px; border-top: 1px solid #ece2d0; padding-top: 12px; }
+        details { margin-top: 22px; border-top: 1px solid #d0d7de; padding-top: 14px; }
         summary {
-            cursor: pointer; color: #6b5a47; font-size: 15px; font-weight: 700;
-            list-style: none; display: inline-block; padding: 6px 12px;
-            background: #f0e6d4; border-radius: 8px;
+            cursor: pointer; list-style: none; display: inline-block;
+            font-size: 14px; font-weight: 600; color: #0969da; padding: 4px 0;
         }
         summary::-webkit-details-marker { display: none; }
         summary::before { content: '▸ '; }
         details[open] summary::before { content: '▾ '; }
-        .more { padding: 14px 2px 4px; }
-        .more h4 { font-size: 14px; color: #5a4a3a; margin: 14px 0 6px; }
-        .more h4:first-child { margin-top: 0; }
-        .more ul { padding-left: 18px; font-size: 13.5px; color: #6b5a47; }
+        .more { padding-top: 8px; }
+        .more h4 { font-size: 13px; font-weight: 600; color: #1f2328; margin: 16px 0 6px; }
+        .more h4:first-child { margin-top: 4px; }
+        .more ul { padding-left: 18px; font-size: 13px; color: #57606a; }
         .more li { margin-bottom: 4px; }
-        .no { color: #c0392b; font-weight: 700; }
-        .command-box {
-            background: #2a2520; color: #e9e1d3; padding: 14px; border-radius: 8px;
-            font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.55;
-            max-height: 180px; overflow: auto;
+        .no { color: #cf222e; font-weight: 600; }
+        .code {
+            background: #1e1e1e; color: #d4d4d4; border-radius: 6px; padding: 14px;
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+            font-size: 12px; line-height: 1.55; max-height: 200px; overflow: auto;
         }
-        .command-box pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
-        .copy-sm {
-            background: #c9b89a; color: #3a2f25; border: none; border-radius: 6px;
-            padding: 7px 14px; font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 8px;
-        }
-        .copy-sm.copied { background: #a89678; }
+        .code pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
 
         @media (max-width: 680px) {
-            .steps { flex-direction: column; }
+            .steps { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -84,44 +84,44 @@
         <p class="sub">設定一次，日後點擴充圖示即以 <span class="hl">Edge</span> 開啟 LINE</p>
 
         <div class="steps">
-            <div class="step">
-                <div class="num">1</div>
+            <div class="card">
+                <div class="step-no">1</div>
                 <h3>開啟終端機</h3>
                 <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span></p>
-                <button class="copy-big" onclick="copyTerminal()">複製「終端機」</button>
+                <button class="btn" onclick="copyTerminal()">複製「終端機」</button>
             </div>
-            <div class="step">
-                <div class="num">2</div>
+            <div class="card">
+                <div class="step-no">2</div>
                 <h3>執行安裝指令</h3>
                 <p>複製下方按鈕 → 終端機 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
-                <button class="copy-big" onclick="copyInstall()">複製自動化執行指令</button>
+                <button class="btn" onclick="copyInstall()">複製自動化執行指令</button>
             </div>
-            <div class="step">
-                <div class="num">3</div>
+            <div class="card">
+                <div class="step-no">3</div>
                 <h3>開始使用</h3>
                 <p>點 Chrome 右上角擴充圖示，LINE 會在 <span class="hl">Edge</span> 開啟</p>
             </div>
         </div>
 
-        <div class="edge-note">提示：LINE 會在 Edge 開啟，不是 Chrome</div>
+        <div class="note">LINE 會在 Edge 開啟，不是 Chrome</div>
 
         <details>
-            <summary>📌 點這裡查看更多說明(指令內容 / Edge 提醒 / 解除安裝)</summary>
+            <summary>更多說明（指令內容 / Edge 提醒 / 解除安裝）</summary>
             <div class="more">
                 <h4>指令內容</h4>
-                <div class="command-box"><pre id="installCommand">載入中...</pre></div>
+                <div class="code"><pre id="installCommand">載入中...</pre></div>
 
                 <h4>第一次開 Edge 若跳出視窗</h4>
                 <ul>
-                    <li>登入 / 用 Google 帳戶 → <span class="no">不用登入</span>,關掉</li>
+                    <li>登入 / 用 Google 帳戶 → <span class="no">不用登入</span>，關掉</li>
                     <li>設為預設瀏覽器 → <span class="no">選「否」</span></li>
                     <li>歡迎畫面 / 匯入資料 → <span class="no">直接關掉</span></li>
-                    <li>要安裝 LINE 擴充時,請<span class="no">在 Edge</span> 開啟連結安裝(不要在 Chrome 裝)</li>
+                    <li>要安裝 LINE 擴充時，請<span class="no">在 Edge</span> 開啟連結安裝（不要在 Chrome 裝）</li>
                 </ul>
 
                 <h4>解除安裝</h4>
-                <button class="copy-sm" onclick="copyUninstall()">📋 複製解除安裝指令</button>
-                <div class="command-box"><pre id="uninstallCommand">Remove-Item "$env:LOCALAPPDATA\LineOpenerPro" -Recurse -Force
+                <button class="btn sm" onclick="copyUninstall()">複製解除安裝指令</button>
+                <div class="code"><pre id="uninstallCommand">Remove-Item "$env:LOCALAPPDATA\LineOpenerPro" -Recurse -Force
 reg delete "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.line.opener" /f
 Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
             </div>
@@ -161,7 +161,7 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
                 btn.textContent = doneText || '已複製';
                 btn.classList.add('copied');
                 setTimeout(() => { btn.textContent = t; btn.classList.remove('copied'); }, 2500);
-            }).catch(() => alert('複製失敗,請手動選取指令複製'));
+            }).catch(() => alert('複製失敗，請手動選取指令複製'));
         }
 
         window.addEventListener('DOMContentLoaded', () => {
