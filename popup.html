@@ -7,13 +7,12 @@
             width: 350px;
             padding: 0;
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #fdfcfa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+            background: #faf6ef;
+            color: #3c342c;
+            -webkit-font-smoothing: antialiased;
         }
-        .container {
-            padding: 20px;
-            background: #fdfcfa;
-        }
+        .container { padding: 20px; }
         .status {
             text-align: center;
             padding: 15px;
@@ -21,19 +20,19 @@
             margin-bottom: 15px;
         }
         .status.loading {
-            background: #f5f0e8;
-            color: #8b7355;
-            border: 1px solid #e8dcc8;
+            background: #f4ede2;
+            color: #8a7c6b;
+            border: 1px solid #eaded0;
         }
         .status.error {
-            background: #f5e8e0;
-            color: #8b5a3a;
-            border: 1px solid #e8c8b8;
+            background: #f6ece3;
+            color: #8a4a34;
+            border: 1px solid #ecd9c8;
         }
         .status.success {
-            background: #eff5e8;
-            color: #6b7355;
-            border: 1px solid #d8e8c8;
+            background: #edf3e8;
+            color: #5f7a52;
+            border: 1px solid #d9e6cf;
         }
         .title {
             font-size: 18px;
@@ -49,9 +48,9 @@
             display: block;
             width: 100%;
             padding: 12px;
-            background: #c9b89a;
-            color: #3a2f25;
-            border: none;
+            background: #b0593f;
+            color: #fff;
+            border: 1px solid rgba(60,52,44,.12);
             border-radius: 6px;
             font-size: 14px;
             font-weight: bold;
@@ -60,16 +59,21 @@
             text-decoration: none;
             text-align: center;
             box-sizing: border-box;
+            transition: background .12s;
         }
-        .button:hover {
-            background: #b8a788;
+        .button:hover { background: #9a4c35; }
+        .button.alt {
+            background: #f4ede2;
+            color: #6b5744;
+            border: 1px solid #e0d0bd;
         }
+        .button.alt:hover { background: #eee3d4; }
         .loading-spinner {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid #f5f0e8;
-            border-top: 3px solid #c9b89a;
+            border: 3px solid #f4ede2;
+            border-top: 3px solid #b0593f;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 8px;
@@ -79,15 +83,13 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
         .hint {
             font-size: 12px;
             line-height: 1.6;
-            color: #8b7355;
-            background: #f5f0e8;
-            border: 1px solid #e8dcc8;
+            color: #8a7c6b;
+            background: #f4ede2;
+            border: 1px solid #eaded0;
             border-radius: 6px;
             padding: 8px 10px;
             margin: -4px 0 10px;
@@ -118,7 +120,7 @@
                 3. 重新開啟此擴充功能即可使用
             </div>
 
-            <button id="edgeLineBtn" class="button" style="background: #00B900;">安裝 LINE 到 Edge</button>
+            <button id="edgeLineBtn" class="button alt">安裝 LINE 到 Edge</button>
             <div class="hint">Edge 是 Windows 內建的瀏覽器（工作列上藍綠色圖示），跟 Chrome 不同。打開 Edge，把複製的網址貼到網址列即可。</div>
             <a href="#" id="downloadBtn" class="button">執行安裝腳本</a>
         </div>
@@ -137,13 +139,13 @@
         <!-- 錯誤 -->
         <div id="errorView" class="hidden">
             <div class="status error">
-                <div class="title">❌ 發生錯誤</div>
+                <div class="title">發生錯誤</div>
                 <div class="message" id="errorMessage"></div>
             </div>
-            <button id="retryBtn" class="button">🔄 重試</button>
+            <button id="retryBtn" class="button">重試</button>
         </div>
     </div>
-    
+
     <script src="popup.js"></script>
 </body>
 </html>
