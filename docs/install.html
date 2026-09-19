@@ -12,24 +12,42 @@
             background: #f5f6f8; color: #201f1e; line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
-        .page { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+        .page { max-width: 620px; margin: 0 auto; padding: 48px 20px; }
         h1 { font-size: 24px; font-weight: 600; text-align: center; }
-        .sub { text-align: center; color: #605e5c; font-size: 14px; margin: 8px 0 30px; }
+        .sub { text-align: center; color: #605e5c; font-size: 14px; margin: 8px 0 28px; }
         .hl { color: #3568a0; font-weight: 600; }
 
-        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .card {
+        /* 上下排列的步驟 */
+        .steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+        .step {
+            display: flex; align-items: flex-start; gap: 14px;
             background: #fff; border: 1px solid #e6e6e6; border-radius: 8px;
-            padding: 20px; box-shadow: 0 1.6px 3.6px rgba(0,0,0,.06), 0 .3px .9px rgba(0,0,0,.04);
+            padding: 18px 20px; opacity: .5;
+            box-shadow: 0 1.6px 3.6px rgba(0,0,0,.05);
+            transition: opacity .3s ease, border-color .3s ease, box-shadow .3s ease;
         }
+        .step.active { opacity: 1; border-color: #3568a0; box-shadow: 0 0 0 1px #3568a0, 0 3px 12px rgba(53,104,160,.14); }
+        .step.done { opacity: 1; }
+        .step:not(.active):not(.done) { pointer-events: none; }
+
         .step-no {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 26px; height: 26px; border-radius: 50%;
-            background: #3568a0; color: #fff; font-size: 13px; font-weight: 600;
-            margin-bottom: 12px;
+            flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #3568a0; color: #fff; font-size: 14px; font-weight: 600;
         }
-        .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-        .card p { font-size: 13px; color: #605e5c; }
+        .step.done .step-no { background: #3a7d44; }
+
+        .step-body { flex: 1; }
+        .step-body h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+        .step-body p { font-size: 13px; color: #605e5c; }
+
+        .step-check {
+            flex-shrink: 0; width: 24px; text-align: center;
+            color: #3a7d44; font-size: 20px; font-weight: 700;
+            opacity: 0; transform: scale(.4); transition: opacity .3s ease, transform .3s ease;
+        }
+        .step.done .step-check { opacity: 1; transform: scale(1); }
+
         .kbd {
             display: inline-block; font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
             font-size: 11px; color: #201f1e; background: #f3f2f1;
@@ -37,7 +55,7 @@
             padding: 1px 5px; line-height: 1.4;
         }
         .btn {
-            display: block; width: 100%; margin-top: 16px;
+            display: block; width: 100%; margin-top: 14px;
             background: #3568a0; color: #fff; border: 1px solid transparent;
             border-radius: 4px; padding: 10px 12px; font-size: 14px; font-weight: 600;
             cursor: pointer; transition: background .1s;
@@ -45,6 +63,8 @@
         .btn:hover { background: #2d5987; }
         .btn:active { background: #264b73; }
         .btn.copied { background: #3a7d44; }
+        .btn.confirm { background: #fff; color: #3568a0; border: 1px solid #3568a0; margin-top: 8px; }
+        .btn.confirm:hover { background: #eef3f8; }
         .btn.sm { width: auto; margin: 0 0 10px; padding: 6px 14px; font-size: 13px; }
 
         .note {
@@ -53,7 +73,7 @@
             border-radius: 4px; color: #33465a; text-align: center;
         }
 
-        details { margin-top: 24px; border-top: 1px solid #e6e6e6; padding-top: 16px; }
+        details { margin-top: 22px; border-top: 1px solid #e6e6e6; padding-top: 16px; }
         summary {
             cursor: pointer; list-style: none; display: inline-block;
             font-size: 14px; font-weight: 600; color: #3568a0; padding: 4px 0;
@@ -74,35 +94,59 @@
         }
         .code pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
 
-        @media (max-width: 680px) {
-            .steps { grid-template-columns: 1fr; }
+        /* 指向右上角擴充圖示的箭頭 */
+        .pointer { position: fixed; top: 4px; right: 64px; z-index: 50; text-align: center; display: none; }
+        .pointer.show { display: block; animation: bob 1.1s ease-in-out infinite; }
+        .pointer-arrow { font-size: 30px; line-height: 1; color: #3568a0; }
+        .pointer-label {
+            margin-top: 2px; font-size: 12px; font-weight: 600; color: #3568a0; white-space: nowrap;
+            background: #fff; border: 1px solid #3568a0; border-radius: 12px; padding: 2px 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.12);
         }
+        @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
     </style>
 </head>
 <body>
+    <div class="pointer" id="topPointer">
+        <div class="pointer-arrow">↑</div>
+        <div class="pointer-label">擴充圖示在這裡</div>
+    </div>
+
     <div class="page">
         <h1>一鍵開啟 LINE</h1>
         <p class="sub">設定一次，日後點擴充圖示即以 <span class="hl">Edge</span> 開啟 LINE</p>
 
-        <div class="steps">
-            <div class="card">
+        <ol class="steps">
+            <li class="step active" id="step1">
                 <div class="step-no">1</div>
-                <h3>開啟終端機</h3>
-                <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span></p>
-                <button class="btn" onclick="copyTerminal()">複製「終端機」</button>
-            </div>
-            <div class="card">
+                <div class="step-body">
+                    <h3>開啟終端機</h3>
+                    <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span></p>
+                    <button class="btn" onclick="copyTerminal()">複製「終端機」</button>
+                </div>
+                <div class="step-check">✓</div>
+            </li>
+
+            <li class="step" id="step2">
                 <div class="step-no">2</div>
-                <h3>執行安裝指令</h3>
-                <p>複製下方按鈕 → 終端機 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
-                <button class="btn" onclick="copyInstall()">複製自動化執行指令</button>
-            </div>
-            <div class="card">
+                <div class="step-body">
+                    <h3>執行安裝指令</h3>
+                    <p>複製下方按鈕 → 終端機 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span>，執行完再回來按「確認完成」</p>
+                    <button class="btn" onclick="copyInstall()">複製自動化執行指令</button>
+                    <button class="btn confirm" onclick="confirmStep2()">執行完了，確認完成</button>
+                </div>
+                <div class="step-check">✓</div>
+            </li>
+
+            <li class="step" id="step3">
                 <div class="step-no">3</div>
-                <h3>開始使用</h3>
-                <p>點 Chrome 右上角擴充圖示，LINE 會在 <span class="hl">Edge</span> 開啟</p>
-            </div>
-        </div>
+                <div class="step-body">
+                    <h3>開始使用</h3>
+                    <p>點畫面<span class="hl">右上角的擴充圖示</span>（見上方箭頭），LINE 會在 <span class="hl">Edge</span> 開啟。</p>
+                </div>
+                <div class="step-check">✓</div>
+            </li>
+        </ol>
 
         <div class="note">LINE 會在 Edge 開啟，不是 Chrome</div>
 
@@ -145,13 +189,30 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
             return urlParams.get('id') || DEFAULT_EXTENSION_ID;
         }
 
+        // 步驟精靈：完成一步 → 打勾，下一步亮起
+        function markDone(n) {
+            const s = document.getElementById('step' + n);
+            if (s) { s.classList.remove('active'); s.classList.add('done'); }
+        }
+        function activate(n) {
+            const s = document.getElementById('step' + n);
+            if (s) s.classList.add('active');
+        }
+        function completeStep1() { markDone(1); activate(2); }
+        function completeStep2() {
+            markDone(2); activate(3);
+            document.getElementById('topPointer').classList.add('show');
+        }
+
         function copyTerminal() {
             copyToClipboard('終端機', event.target, '已複製！按 Win 鍵貼上');
+            completeStep1();
         }
         function copyInstall() {
             const command = document.getElementById('installCommand').textContent;
             copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
         }
+        function confirmStep2() { completeStep2(); }
         function copyUninstall() {
             const command = document.getElementById('uninstallCommand').textContent;
             copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
