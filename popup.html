@@ -25,9 +25,15 @@
             border: 1px solid #dde3ea;
         }
         .status.error {
-            background: #eef3f8;
-            color: #33465a;
-            border: 1px solid #dbe6f0;
+            background: #fde7e9;
+            color: #a4262c;
+            border: 1px solid #f1bcc0;
+        }
+        .status.warn {
+            background: #fff4ce;
+            color: #6b5300;
+            border: 1px solid #e6c34d;
+            border-left: 4px solid #d9a300;
         }
         .status.success {
             background: #eef5ef;
@@ -48,7 +54,7 @@
             display: block;
             width: 100%;
             padding: 11px;
-            background: #2f5a86;
+            background: #3568a0;
             color: #fff;
             border: 1px solid transparent;
             border-radius: 4px;
@@ -61,12 +67,12 @@
             box-sizing: border-box;
             transition: background .1s;
         }
-        .button:hover { background: #274b70; }
-        .button:active { background: #21415f; }
+        .button:hover { background: #2d5987; }
+        .button:active { background: #264b73; }
         .button.alt {
             background: #fff;
-            color: #2f5a86;
-            border: 1px solid #2f5a86;
+            color: #3568a0;
+            border: 1px solid #3568a0;
         }
         .button.alt:hover { background: #eef3f8; }
         .loading-spinner {
@@ -74,7 +80,7 @@
             width: 20px;
             height: 20px;
             border: 3px solid #dde3ea;
-            border-top: 3px solid #2f5a86;
+            border-top: 3px solid #3568a0;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 8px;
@@ -110,7 +116,7 @@
 
         <!-- 未安裝 / 版本過舊 - 引導安裝 -->
         <div id="installView" class="hidden">
-            <div class="status error">
+            <div class="status warn">
                 <div class="title" id="installTitle">需要完成安裝</div>
             </div>
 
