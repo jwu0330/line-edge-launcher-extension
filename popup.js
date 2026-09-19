@@ -107,7 +107,7 @@ function showInstallGuide() {
     if (downloadBtn) {
         downloadBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const installUrl = 'https://jwu0330.github.io/line-pro/install.html';
+            const installUrl = 'https://jwu0330.github.io/line-edge-launcher-extension/install.html';
             chrome.tabs.create({ url: installUrl });
         });
     }

@@ -35,5 +35,5 @@ The extension complies with all applicable Chrome Web Store policies, including:
 - User Data Privacy and Security Policies
 
 For questions or issues, please contact:
-GitHub Issues: https://github.com/jwu0330/line-pro/issues
+GitHub Issues: https://github.com/jwu0330/line-edge-launcher-extension/issues
  

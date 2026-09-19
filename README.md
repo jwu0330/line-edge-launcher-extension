@@ -2,7 +2,7 @@
 
 一鍵從 Chrome 開啟 Edge 的 LINE，無確認對話框，完全自動化。
 
-[![Version](https://img.shields.io/badge/version-2.4.0-green.svg)](https://github.com/jwu0330/line-pro/releases)
+[![Version](https://img.shields.io/badge/version-2.4.2-green.svg)](https://github.com/jwu0330/line-edge-launcher-extension/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
@@ -21,7 +21,7 @@
 ### 1. 安裝擴充程式
 
 **開發版本（目前）：**
-- 下載 [ZIP](https://github.com/jwu0330/line-pro/archive/refs/heads/master.zip) 並解壓縮
+- 下載 [ZIP](https://github.com/jwu0330/line-edge-launcher-extension/archive/refs/heads/master.zip) 並解壓縮
 - Chrome 前往 `chrome://extensions/`
 - 開啟「開發人員模式」
 - 點擊「載入未封裝項目」，選擇解壓後的資料夾
@@ -76,7 +76,7 @@
 ## 🛠️ 專案結構
 
 ```
-line-pro/
+line-edge-launcher-extension/
 ├── manifest.json              # Chrome 擴充程式配置
 ├── popup.html                 # 擴充程式 UI
 ├── popup.js                   # 擴充程式邏輯
@@ -92,6 +92,11 @@ line-pro/
 ---
 
 ## 📝 更新日誌
+
+### v2.4.2 (2026-09-19)
+- 🐛 修復 Edge 改版後自動化失效問題（改用「鍵盤 Enter 開啟擴充選單 + 滑鼠點擊」的相容方案，取代已失效的 UIA Invoke/Toggle/Expand）
+- 🎯 擴充功能按鈕改以 ClassName `EdgeExtensionsHubButton` 定位，較不受 Edge 改版影響
+- 🔗 修正安裝頁連結（GitHub Pages 網址更新為 line-edge-launcher-extension）
 
 ### v2.4.0 (2025-11-24)
 - 🎨 全新米白色主題設計
@@ -125,8 +130,8 @@ MIT License - 詳見 [LICENSE](LICENSE)
 
 ## 📞 支援
 
-- 🐛 [回報問題](https://github.com/jwu0330/line-pro/issues)
-- 💬 [討論區](https://github.com/jwu0330/line-pro/discussions)
+- 🐛 [回報問題](https://github.com/jwu0330/line-edge-launcher-extension/issues)
+- 💬 [討論區](https://github.com/jwu0330/line-edge-launcher-extension/discussions)
 
 ---
 

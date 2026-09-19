@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Open LINE in Edge (Pro)",
   "description": "一鍵從 Chrome 啟動 Edge 的 LINE 網頁版 - Native Messaging 版本",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "action": {
     "default_title": "用 Edge 開啟 LINE Web",
     "default_popup": "popup.html"
