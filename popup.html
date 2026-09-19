@@ -105,13 +105,13 @@
             <div class="message">正在檢查 Native Host 安裝狀態</div>
         </div>
 
-        <!-- 未安裝 - 引導安裝 -->
+        <!-- 未安裝 / 版本過舊 - 引導安裝 -->
         <div id="installView" class="hidden">
             <div class="status error">
-                <div class="title">❌ 需要完成安裝</div>
+                <div class="title" id="installTitle">需要完成安裝</div>
             </div>
-            
-            <div class="message" style="text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 15px;">
+
+            <div class="message" id="installMessage" style="text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 15px;">
                 <strong>安裝步驟：</strong><br>
                 1. 沒裝過 LINE？先安裝到 Edge<br>
                 2. 複製指令貼到終端機執行<br>

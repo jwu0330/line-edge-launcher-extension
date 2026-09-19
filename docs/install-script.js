@@ -1,6 +1,10 @@
 // 安裝腳本生成器 - 所有內容都在這裡，不需要從網路下載
 
 function generateInstallCommand(extensionId) {
+    // Native Host 版本；每次 Host 腳本有變動時調高，並同步 popup.js 的 REQUIRED_HOST_VERSION。
+    // popup 會用它比對，若已安裝版本較舊會提示使用者重新安裝更新。
+    var HOST_VERSION = '2.5.0';
+
     // 使用字符串拼接而不是模板字串，避免特殊字符問題
     var cmd = '# LINE Opener Pro - 安裝指令（無需網路下載）\n';
     cmd += '$extId = "' + extensionId + '"\n';
@@ -28,7 +32,7 @@ function generateInstallCommand(extensionId) {
     cmd += '$messageJson = [System.Text.Encoding]::UTF8.GetString($messageBytes)\n';
     cmd += '$message = $messageJson | ConvertFrom-Json\n';
     cmd += 'if ($message.action -eq \'ping\') {\n';
-    cmd += '    $response = @{ success = $true; message = "Native Host is running"; version = "2.4.2" } | ConvertTo-Json -Compress\n';
+    cmd += '    $response = @{ success = $true; message = "Native Host is running"; version = "' + HOST_VERSION + '" } | ConvertTo-Json -Compress\n';
     cmd += '} elseif ($message.action -eq \'openLINE\') {\n';
     cmd += '    $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path\n';
     cmd += '    $autoClickScript = Join-Path $scriptDir "auto_click_line.ps1"\n';

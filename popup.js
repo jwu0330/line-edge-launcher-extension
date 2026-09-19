@@ -2,6 +2,22 @@
 
 console.log('[LINE Extension Pro] Popup loaded');
 
+// Native Host 需求版本：已安裝的 Host 版本低於此值時，會提示使用者重新安裝以更新。
+// ⚠️ 每次「Native Host 腳本本身」有變動時，需同步調高這裡與 docs/install-script.js 的 HOST_VERSION。
+const REQUIRED_HOST_VERSION = '2.5.0';
+
+// 比較版本字串（"2.5.0" 形式）；a 比 b 舊回傳 true
+function isVersionOlder(a, b) {
+    const pa = String(a || '0').split('.').map(n => parseInt(n, 10) || 0);
+    const pb = String(b || '0').split('.').map(n => parseInt(n, 10) || 0);
+    for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+        const x = pa[i] || 0, y = pb[i] || 0;
+        if (x < y) return true;
+        if (x > y) return false;
+    }
+    return false;
+}
+
 // 視圖元素
 const views = {
     loading: document.getElementById('loadingView'),
@@ -20,7 +36,7 @@ function showView(viewName) {
     }
 }
 
-// 單次 ping Native Host；timeoutMs 內沒回應即視為失敗
+// 單次 ping Native Host；成功回傳 Host 回應物件（含 version），失敗（逾時或錯誤）回傳 null
 function pingNativeHost(timeoutMs) {
     return new Promise((resolve) => {
         let settled = false;
@@ -28,7 +44,7 @@ function pingNativeHost(timeoutMs) {
             if (settled) return;
             settled = true;
             console.log('[LINE Extension Pro] ping timeout after', timeoutMs, 'ms');
-            resolve(false);
+            resolve(null);
         }, timeoutMs);
 
         chrome.runtime.sendNativeMessage(
@@ -40,10 +56,10 @@ function pingNativeHost(timeoutMs) {
                 clearTimeout(timer);
                 if (chrome.runtime.lastError) {
                     console.log('[LINE Extension Pro] Native Host not found:', chrome.runtime.lastError.message);
-                    resolve(false);
+                    resolve(null);
                 } else {
                     console.log('[LINE Extension Pro] Native Host found:', response);
-                    resolve(true);
+                    resolve(response || {});
                 }
             }
         );
@@ -56,7 +72,8 @@ function pingNativeHost(timeoutMs) {
 // 避免間歇性誤判為「未安裝」。
 async function checkNativeHost() {
     console.log('[LINE Extension Pro] Checking Native Host...');
-    if (await pingNativeHost(8000)) return true;
+    const resp = await pingNativeHost(8000);
+    if (resp) return resp;
     console.log('[LINE Extension Pro] first ping failed, retrying once...');
     return await pingNativeHost(8000);
 }
@@ -92,9 +109,27 @@ function showError(message) {
 }
 
 // 顯示安裝引導
-function showInstallGuide() {
+// reason: 'missing'（未安裝）或 'outdated'（版本過舊需更新）
+function showInstallGuide(reason, hostVersion) {
     showView('install');
-    
+
+    // 依情境調整標題與說明
+    const titleEl = document.getElementById('installTitle');
+    const msgEl = document.getElementById('installMessage');
+    if (reason === 'outdated') {
+        if (titleEl) titleEl.textContent = '需要更新';
+        if (msgEl) msgEl.innerHTML =
+            '偵測到舊版 Native Host（v' + (hostVersion || '?') + '）。<br>' +
+            '請重新複製安裝指令並在終端機執行，即可更新到最新版。';
+    } else {
+        if (titleEl) titleEl.textContent = '需要完成安裝';
+        if (msgEl) msgEl.innerHTML =
+            '<strong>安裝步驟：</strong><br>' +
+            '1. 沒裝過 LINE？先安裝到 Edge<br>' +
+            '2. 複製指令貼到終端機執行<br>' +
+            '3. 重新開啟此擴充功能即可使用';
+    }
+
     // Edge LINE 安裝按鈕 - 直接複製網址
     const edgeLineBtn = document.getElementById('edgeLineBtn');
     if (edgeLineBtn) {
@@ -130,23 +165,31 @@ function showInstallGuide() {
 async function init() {
     console.log('[LINE Extension Pro] Initializing...');
     showView('loading');
-    
+
     // 等待一下讓 UI 顯示
     await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // 檢測 Native Host
-    const isInstalled = await checkNativeHost();
-    
-    if (isInstalled) {
-        // 已安裝，直接執行
-        console.log('[LINE Extension Pro] Native Host installed, opening LINE...');
-        showView('running');
-        openLINE();
-    } else {
+
+    // 檢測 Native Host（回傳回應物件或 null）
+    const host = await checkNativeHost();
+
+    if (!host) {
         // 未安裝，顯示安裝引導
         console.log('[LINE Extension Pro] Native Host not installed, showing install guide...');
-        showInstallGuide();
+        showInstallGuide('missing');
+        return;
     }
+
+    if (isVersionOlder(host.version, REQUIRED_HOST_VERSION)) {
+        // 版本過舊，提示重新安裝更新
+        console.log('[LINE Extension Pro] Native Host outdated:', host.version, '<', REQUIRED_HOST_VERSION);
+        showInstallGuide('outdated', host.version);
+        return;
+    }
+
+    // 已安裝且版本符合，直接執行
+    console.log('[LINE Extension Pro] Native Host OK (v' + host.version + '), opening LINE...');
+    showView('running');
+    openLINE();
 }
 
 // 錯誤重試

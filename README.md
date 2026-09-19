@@ -93,6 +93,7 @@ line-edge-launcher-extension/
 
 ### v2.5.0 (2026-09-20)
 - 🚀 正式發佈版：預設擴充 ID 切換為 Chrome Web Store 上架版 ID（`fhgjojni…`）
+- 🔄 新增 Native Host 版本偵測：擴充啟動時會比對已安裝的 Host 版本，若過舊會顯示「需要更新」並引導重新安裝（重新安裝為覆蓋更新，不殘留舊檔）
 - 📝 修正 README 與安裝頁提示中過時的操作教學（移除已不存在的「開始安裝 / 重新檢測」按鈕說明，改為「重新點圖示自動偵測」流程）
 - 🧹 移除 popup 未使用的 CSS（`.button.secondary`）
 
