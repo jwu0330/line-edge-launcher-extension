@@ -145,5 +145,6 @@ Click Chrome extension icon
 ## 6. Two extension IDs seen in this project / 本專案出現過的兩個擴充 ID
 
 - `fhgjojnifekiifaenchgammalffepbeg` — Web Store (production) ID / 上架版(正式)ID
-- `oppdldnoihbknlmdggabmhfiicpadfpd` — unpacked (test, this machine) ID / 未封裝(測試,本機)ID
-- (older, no longer used: `phmpiijeidboekpokjaannamejbkjock`) / (更早的舊 ID,已不用)
+- `akghapcbfibbmgglgkpnbahgdaakndem` — unpacked (test, current machine, path-derived) ID / 未封裝(測試,目前這台,依路徑而定)ID
+  (path / 路徑: `E:\code\github\新增資料夾\line-edge-launcher-extension`)
+- (older test IDs, path-derived on other machines, no longer used: `faoojfgpccfpgjjgomedfbdpcdbjkdej`, `oppdldnoihbknlmdggabmhfiicpadfpd`, `phmpiijeidboekpokjaannamejbkjock`) / (更早的測試 ID,其他機器/路徑算出,已不用)
