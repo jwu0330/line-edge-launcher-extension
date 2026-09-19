@@ -4,7 +4,7 @@ console.log('[LINE Extension Pro] Popup loaded');
 
 // Native Host 需求版本：已安裝的 Host 版本低於此值時，會提示使用者重新安裝以更新。
 // ⚠️ 每次「Native Host 腳本本身」有變動時，需同步調高這裡與 docs/install-script.js 的 HOST_VERSION。
-const REQUIRED_HOST_VERSION = '2.5.0';
+const REQUIRED_HOST_VERSION = '2.5.1';
 
 // 比較版本字串（"2.5.0" 形式）；a 比 b 舊回傳 true
 function isVersionOlder(a, b) {

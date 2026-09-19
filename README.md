@@ -2,7 +2,7 @@
 
 一鍵從 Chrome 開啟 Edge 的 LINE，無確認對話框，完全自動化。
 
-[![Version](https://img.shields.io/badge/version-2.5.0-green.svg)](https://github.com/jwu0330/line-edge-launcher-extension/releases)
+[![Version](https://img.shields.io/badge/version-2.5.1-green.svg)](https://github.com/jwu0330/line-edge-launcher-extension/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
@@ -90,6 +90,10 @@ line-edge-launcher-extension/
 ---
 
 ## 📝 更新日誌
+
+### v2.5.1 (2026-09-20)
+- 🔄 提高 Native Host 需求版本，用於驗證「偵測到舊版 → 需要更新」的提示流程
+- 🧪 測試模式：`install.html` 預設 ID 使用本機未封裝 ID（打包正式上架 zip 時才切換為 Web Store ID）
 
 ### v2.5.0 (2026-09-20)
 - 🚀 正式發佈版：預設擴充 ID 切換為 Chrome Web Store 上架版 ID（`fhgjojni…`）

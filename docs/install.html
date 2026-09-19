@@ -132,11 +132,12 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
     <script>
         // ============================================================
         // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
-        //    • 正式版（Chrome Web Store，目前使用）：fhgjojnifekiifaenchgammalffepbeg
-        //    • 測試版（載入未封裝項目）：ID 依資料夾路徑而定、每台機器不同（見 HANDOFF P2），
-        //      本機測試請改用 install.html?id=<未封裝ID> 覆寫，不要改動下面的正式預設值。
+        //    • 測試版（載入未封裝項目，本機目前使用）：akghapcbfibbmgglgkpnbahgdaakndem
+        //    • 正式版（Chrome Web Store）：fhgjojnifekiifaenchgammalffepbeg
+        //    ⚠️ 目前為「測試模式」，用本機未封裝 ID；只有在打包正式上架 zip 時才改成正式版 ID。
+        //       未封裝 ID 依資料夾路徑而定、每台機器不同（見 HANDOFF P2）。
         // ============================================================
-        const DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'; // ← 目前：正式版（Web Store）
+        const DEFAULT_EXTENSION_ID = 'akghapcbfibbmgglgkpnbahgdaakndem'; // ← 目前：測試版（本機未封裝）
 
         function getExtensionId() {
             const urlParams = new URLSearchParams(window.location.search);

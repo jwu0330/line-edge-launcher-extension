@@ -3,7 +3,7 @@
 function generateInstallCommand(extensionId) {
     // Native Host 版本；每次 Host 腳本有變動時調高，並同步 popup.js 的 REQUIRED_HOST_VERSION。
     // popup 會用它比對，若已安裝版本較舊會提示使用者重新安裝更新。
-    var HOST_VERSION = '2.5.0';
+    var HOST_VERSION = '2.5.1';
 
     // 使用字符串拼接而不是模板字串，避免特殊字符問題
     var cmd = '# LINE Opener Pro - 安裝指令（無需網路下載）\n';
