@@ -92,8 +92,10 @@ line-edge-launcher-extension/
 ## 📝 更新日誌
 
 ### v2.5.1 (2026-09-20)
-- 🔄 提高 Native Host 需求版本，用於驗證「偵測到舊版 → 需要更新」的提示流程
-- 🧪 測試模式：`install.html` 預設 ID 使用本機未封裝 ID（打包正式上架 zip 時才切換為 Web Store ID）
+- 🎨 安裝頁改為步驟精靈：上下排列、完成打勾、下一步亮起、第 3 步以箭頭指向擴充圖示
+- 🎨 擴充彈窗與安裝頁統一為藍色系（Segoe UI / Fluent 風），更新提示改為明顯的黃色警示框
+- 🔄 Native Host 版本偵測：偵測到舊版會引導重新安裝更新
+- 🚀 正式版：`install.html` 預設擴充 ID 使用 Chrome Web Store 上架版 ID
 
 ### v2.5.0 (2026-09-20)
 - 🚀 正式發佈版：預設擴充 ID 切換為 Chrome Web Store 上架版 ID（`fhgjojni…`）
