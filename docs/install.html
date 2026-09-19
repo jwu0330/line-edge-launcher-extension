@@ -40,10 +40,9 @@
         .copy-big.copied { background: #3f8a4e; }
 
         .edge-note {
-            background: #fdecec; border: 2px solid #e0a0a0; border-radius: 10px;
-            padding: 14px 16px; font-size: 16px; color: #a8321a; text-align: center; font-weight: 800;
+            background: #fdecec; border: 1px solid #e8c0c0; border-radius: 8px;
+            padding: 10px 14px; font-size: 14px; color: #a8321a; text-align: center; font-weight: 600;
         }
-        .edge-note .big { font-size: 19px; }
 
         .step .copy-big { margin: 10px 0 0; font-size: 15px; padding: 13px 8px; }
 
@@ -88,13 +87,14 @@
             <div class="step">
                 <div class="num">1</div>
                 <h3>打開終端機</h3>
-                <p>按 <span class="kbd">⊞ Win</span> 鍵,直接打字<span class="hl">「終端機」</span>,按 <span class="kbd">Enter</span> 開啟</p>
+                <p>按下面按鈕複製 → 按 <span class="kbd">⊞ Win</span> 鍵 → 貼上 → <span class="kbd">Enter</span></p>
+                <button class="copy-big" onclick="copyTerminal()">複製「終端機」</button>
             </div>
             <div class="step">
                 <div class="num">2</div>
                 <h3>複製、貼上、執行</h3>
-                <p>按下面按鈕複製指令 → 在終端機按 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
-                <button class="copy-big" onclick="copyInstall()">📋 複製自動化執行指令</button>
+                <p>按下面按鈕複製 → 在終端機按 <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span></p>
+                <button class="copy-big" onclick="copyInstall()">複製自動化執行指令</button>
             </div>
             <div class="step">
                 <div class="num">3</div>
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <div class="edge-note">⚠ <span class="big">注意：LINE 會在「Edge」開啟，不是 Chrome！</span><br>Edge 是 Windows 內建的另一個瀏覽器(工作列上藍綠色波浪圖示 🌊)</div>
+        <div class="edge-note">⚠ LINE 會用 Edge 開啟,不是 Chrome</div>
 
         <details>
             <summary>📌 點這裡查看更多說明(指令內容 / Edge 提醒 / 解除安裝)</summary>
@@ -143,18 +143,21 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
             return urlParams.get('id') || DEFAULT_EXTENSION_ID;
         }
 
+        function copyTerminal() {
+            copyToClipboard('終端機', event.target, '已複製！按 Win 鍵貼上');
+        }
         function copyInstall() {
             const command = document.getElementById('installCommand').textContent;
-            copyToClipboard(command + '\n', event.target);
+            copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
         }
         function copyUninstall() {
             const command = document.getElementById('uninstallCommand').textContent;
-            copyToClipboard(command + '\n', event.target);
+            copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
         }
-        function copyToClipboard(text, btn) {
+        function copyToClipboard(text, btn, doneText) {
             navigator.clipboard.writeText(text).then(() => {
                 const t = btn.textContent;
-                btn.textContent = '✅ 已複製！回終端機按 Ctrl+V';
+                btn.textContent = doneText || '已複製';
                 btn.classList.add('copied');
                 setTimeout(() => { btn.textContent = t; btn.classList.remove('copied'); }, 2500);
             }).catch(() => alert('複製失敗,請手動選取指令複製'));
