@@ -20,22 +20,24 @@ function showView(viewName) {
     }
 }
 
-// 檢測 Native Host 是否已安裝
-function checkNativeHost() {
+// 單次 ping Native Host；timeoutMs 內沒回應即視為失敗
+function pingNativeHost(timeoutMs) {
     return new Promise((resolve) => {
-        console.log('[LINE Extension Pro] Checking Native Host...');
-        
-        // 設定超時，避免無限等待
-        const timeout = setTimeout(() => {
-            console.log('[LINE Extension Pro] Native Host check timeout');
+        let settled = false;
+        const timer = setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            console.log('[LINE Extension Pro] ping timeout after', timeoutMs, 'ms');
             resolve(false);
-        }, 3000);
-        
+        }, timeoutMs);
+
         chrome.runtime.sendNativeMessage(
             'com.line.opener',
             { action: 'ping' },
             function(response) {
-                clearTimeout(timeout);
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
                 if (chrome.runtime.lastError) {
                     console.log('[LINE Extension Pro] Native Host not found:', chrome.runtime.lastError.message);
                     resolve(false);
@@ -46,6 +48,17 @@ function checkNativeHost() {
             }
         );
     });
+}
+
+// 檢測 Native Host 是否已安裝
+// 正常回應約 1 秒，但 PowerShell 冷啟動（機器閒置、防毒掃描）偶爾會超過數秒，
+// 因此逾時放寬到 8 秒，且第一次失敗會再重試一次（冷啟動後第二次通常很快），
+// 避免間歇性誤判為「未安裝」。
+async function checkNativeHost() {
+    console.log('[LINE Extension Pro] Checking Native Host...');
+    if (await pingNativeHost(8000)) return true;
+    console.log('[LINE Extension Pro] first ping failed, retrying once...');
+    return await pingNativeHost(8000);
 }
 
 // 觸發 LINE 開啟

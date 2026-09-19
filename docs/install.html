@@ -3,234 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LINE Opener Pro - 安裝</title>
+    <title>一鍵開啟 LINE - 安裝</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
             background: #fdfcfa;
-            min-height: 100vh;
-            padding: 0;
+            color: #5a4a3a;
+            line-height: 1.6;
+            padding: 0 0 60px;
         }
         .header {
-            background: #fdfcfa;
-            color: #5a4a3a;
-            padding: 40px 20px 20px;
             text-align: center;
+            padding: 40px 20px 24px;
             border-bottom: 1px solid #e8dcc8;
         }
-        .header h1 { 
-            font-size: 32px;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #5a4a3a;
-        }
-        .header p { 
-            font-size: 15px;
-            color: #8b7355;
-            margin-bottom: 30px;
-        }
-        .tabs {
+        .header h1 { font-size: 30px; font-weight: 700; margin-bottom: 6px; }
+        .header p { font-size: 16px; color: #8b7355; }
+        .wrap { max-width: 640px; margin: 0 auto; padding: 28px 20px 0; }
+
+        /* 步驟卡片 */
+        .step {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 0 20px;
+            gap: 16px;
+            background: #fff;
+            border: 1px solid #ece2d0;
+            border-radius: 14px;
+            padding: 22px 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(90,74,58,0.05);
         }
-        .tab-btn {
-            padding: 12px 30px;
-            background: #f5f0e8;
-            color: #5a4a3a;
-            border: 2px solid #e8dcc8;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .tab-btn:hover {
-            background: #ebe4d8;
-            border-color: #d4c4a8;
-        }
-        .tab-btn.active {
+        .num {
+            flex: 0 0 40px;
+            width: 40px; height: 40px;
             background: #d4c4a8;
             color: #3a2f25;
-            border-color: #c9b89a;
+            border-radius: 50%;
+            font-size: 20px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
         }
-        .content {
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: 0 auto;
+        .step-body { flex: 1; }
+        .step-body h2 { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+        .step-body p { font-size: 15px; color: #6b5a47; margin-bottom: 6px; }
+        .kbd {
+            display: inline-block;
+            background: #2a2520; color: #f5f0e8;
+            padding: 2px 10px; border-radius: 6px;
+            font-weight: 700; font-size: 14px; margin: 0 2px;
         }
-        .tab-content {
-            display: none;
+        .hl { color: #b8863b; font-weight: 700; }
+
+        /* 大複製按鈕 */
+        .copy-big {
+            display: block; width: 100%;
+            background: #5aa469; color: #fff;
+            border: none; border-radius: 12px;
+            padding: 18px; margin: 14px 0 10px;
+            font-size: 19px; font-weight: 700;
+            cursor: pointer; transition: all 0.15s;
+            box-shadow: 0 3px 10px rgba(90,164,105,0.3);
         }
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
+        .copy-big:hover { background: #4e9a5d; transform: translateY(-1px); }
+        .copy-big.copied { background: #3f8a4e; }
+
+        /* 摺疊區 */
+        details { margin-top: 10px; }
+        summary {
+            cursor: pointer; color: #8b7355; font-size: 14px;
+            padding: 6px 0; user-select: none;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .section-title {
-            font-size: 22px;
-            color: #8b7355;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        .note {
-            font-size: 15px;
-            color: #6b5a47;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
+        summary:hover { color: #5a4a3a; }
         .command-box {
-            background: #2a2520;
-            color: #f5f0e8;
-            padding: 25px;
-            border-radius: 8px;
+            background: #2a2520; color: #e9e1d3;
+            padding: 16px; border-radius: 10px; margin-top: 8px;
             font-family: 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.7;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(42, 37, 32, 0.15);
+            font-size: 12px; line-height: 1.6;
+            max-height: 220px; overflow: auto;
         }
-        .command-box pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+        .command-box pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
+
+        /* 提醒框 */
+        .warn {
+            background: #fff7ec;
+            border: 1px solid #f0d9b0;
+            border-left: 5px solid #e0a13c;
+            border-radius: 12px;
+            padding: 20px 22px;
+            margin-bottom: 18px;
         }
-        .copy-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #c9b89a;
-            color: #3a2f25;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        .copy-btn:hover {
-            background: #b8a788;
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-        }
-        .copy-btn.copied {
-            background: #a89678;
-        }
-        @media (max-width: 768px) {
-            .header { padding: 30px 15px 15px; }
-            .header h1 { font-size: 26px; }
-            .tabs { flex-direction: column; padding: 0 15px; }
-            .tab-btn { width: 100%; }
-            .content { padding: 30px 15px; }
-            .command-box { 
-                font-size: 11px;
-                padding: 20px;
-                padding-top: 55px;
-            }
-            .copy-btn {
-                top: 15px;
-                right: 15px;
-                padding: 8px 14px;
-                font-size: 12px;
-            }
-        }
+        .warn h2 { font-size: 17px; color: #a8701a; margin-bottom: 10px; }
+        .warn ul { list-style: none; }
+        .warn li { font-size: 15px; color: #6b5a47; margin-bottom: 8px; padding-left: 4px; }
+        .warn .no { color: #c0392b; font-weight: 700; }
+        .warn .ok { color: #3f8a4e; font-weight: 700; }
+        .warn .foot { font-size: 14px; color: #8b7355; margin-top: 6px; }
+
+        .uninstall-wrap { max-width: 640px; margin: 8px auto 0; padding: 0 20px; }
+        .uninstall-wrap .command-box { font-size: 11px; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>📱 LINE Opener Pro</h1>
-        <p>選擇操作類型，複製指令到 PowerShell 執行</p>
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('install')">📥 安裝指令</button>
-            <button class="tab-btn" onclick="showTab('uninstall')">🗑️ 解除安裝</button>
-            <button class="tab-btn" onclick="showTab('run')">🚀 開始執行</button>
-        </div>
+        <h1>📱 一鍵開啟 LINE</h1>
+        <p>跟著 3 步驟做,設定一次就好</p>
     </div>
-    
-    <div class="content">
-        <!-- 安裝指令 -->
-        <div id="install" class="tab-content active">
-            <h2 class="section-title">📥 安裝指令</h2>
-            <p class="note">複製以下指令，貼到 PowerShell (Win+X) 執行：</p>
-            <div class="command-box">
-                <button class="copy-btn" onclick="copyInstall()">📋 複製</button>
-                <pre id="installCommand">載入中...</pre>
+
+    <div class="wrap">
+        <!-- Step 1 -->
+        <div class="step">
+            <div class="num">1</div>
+            <div class="step-body">
+                <h2>開啟「終端機」</h2>
+                <p>按鍵盤 <span class="kbd">⊞ Win</span> + <span class="kbd">X</span>,在跳出的選單點 <span class="hl">「終端機」</span>(或「Windows PowerShell」)。</p>
+                <p>畫面會出現一個<span class="hl">深藍/黑色的文字視窗</span>,這就是要用的地方。</p>
             </div>
         </div>
-        
-        <!-- 解除安裝指令 -->
-        <div id="uninstall" class="tab-content">
-            <h2 class="section-title">🗑️ 解除安裝指令</h2>
-            <p class="note">如需移除，複製以下指令到 PowerShell 執行：</p>
-            <div class="command-box">
-                <button class="copy-btn" onclick="copyUninstall()">📋 複製</button>
-                <pre id="uninstallCommand">Remove-Item "$env:LOCALAPPDATA\LineOpenerPro" -Recurse -Force
+
+        <!-- Step 2 -->
+        <div class="step">
+            <div class="num">2</div>
+            <div class="step-body">
+                <h2>貼上指令並執行</h2>
+                <button class="copy-big" onclick="copyInstall()">📋 點我複製安裝指令</button>
+                <p>回到剛剛的深色視窗,按 <span class="kbd">Ctrl</span> + <span class="kbd">V</span> 貼上,再按 <span class="kbd">Enter</span>。</p>
+                <p>看到綠色的 <span class="ok" style="color:#3f8a4e;font-weight:700;">安裝完成</span> 就成功了 ✅</p>
+                <details>
+                    <summary>▾ 想看指令內容(不看也沒關係)</summary>
+                    <div class="command-box"><pre id="installCommand">載入中...</pre></div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+            <div class="num">3</div>
+            <div class="step-body">
+                <h2>開始使用</h2>
+                <p>點 Chrome 右上角的 <span class="hl">🧩 拼圖圖示</span>,選 <span class="hl">「Open LINE in Edge」</span>。</p>
+                <p>系統就會自動打開 Edge 並啟動 LINE 🎉</p>
+            </div>
+        </div>
+
+        <!-- 重要提醒 -->
+        <div class="warn">
+            <h2>⚠️ 第一次開 Edge 時,如果跳出視窗…</h2>
+            <ul>
+                <li>「要不要登入 / 用 Google 帳戶」 → <span class="no">不用登入</span>,關掉或按「略過」</li>
+                <li>「設為預設瀏覽器」 → <span class="no">選「否」</span>或直接關掉</li>
+                <li>「歡迎畫面 / 匯入資料」 → <span class="no">直接關掉</span></li>
+            </ul>
+            <p class="foot">這些視窗都不影響 LINE 使用,關掉就好 🙂</p>
+        </div>
+    </div>
+
+    <!-- 解除安裝(次要,收摺疊) -->
+    <div class="uninstall-wrap">
+        <details>
+            <summary>🗑️ 不想用了?點我看「解除安裝」方法</summary>
+            <p style="font-size:14px;color:#6b5a47;margin:10px 0 6px;">和安裝一樣:開啟終端機 → 複製下面指令貼上 → 按 Enter。</p>
+            <button class="copy-big" style="background:#b08a8a;box-shadow:none;font-size:16px;padding:14px;" onclick="copyUninstall()">📋 複製解除安裝指令</button>
+            <div class="command-box"><pre id="uninstallCommand">Remove-Item "$env:LOCALAPPDATA\LineOpenerPro" -Recurse -Force
 reg delete "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.line.opener" /f
-Write-Host "已解除安裝" -ForegroundColor Green</pre>
-            </div>
-        </div>
-        
-        <!-- 開始執行 -->
-        <div id="run" class="tab-content">
-            <h2 class="section-title">🚀 開始執行 LINE</h2>
-            <p class="note">安裝完成後，請使用以下方式開啟 LINE：</p>
-            
-            <div style="background: #f5f0e8; padding: 25px; border-radius: 8px; margin-top: 20px;">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">📱</div>
-                    <div style="font-size: 18px; font-weight: 600; color: #5a4a3a; margin-bottom: 10px;">
-                        點擊 Chrome 擴充功能圖示
-                    </div>
-                    <div style="font-size: 14px; color: #8b7355;">
-                        在瀏覽器右上角找到 LINE Opener Pro 圖示並點擊
-                    </div>
-                </div>
-                
-                <div style="border-top: 1px solid #e8dcc8; padding-top: 20px; margin-top: 20px;">
-                    <div style="font-size: 14px; color: #6b5a47; line-height: 1.8;">
-                        <strong>💡 使用說明：</strong><br>
-                        1️⃣ 確認已完成安裝（執行上方的安裝指令）<br>
-                        2️⃣ 點擊瀏覽器右上角的擴充功能圖示<br>
-                        3️⃣ 系統會自動開啟 Edge 並啟動 LINE<br>
-                        <br>
-                        <strong style="color: #c62828;">⚠️ 如果執行失敗：</strong><br>
-                        • 請確認已正確執行安裝指令<br>
-                        • 到 <code style="background: #2a2520; color: #f5f0e8; padding: 2px 6px; border-radius: 3px;">chrome://extensions/</code> 重新載入擴充程式<br>
-                        • 重新點擊擴充功能圖示
-                    </div>
-                </div>
-            </div>
-        </div>
+Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
+        </details>
     </div>
-    
+
     <script src="install-script.js"></script>
     <script>
-        function showTab(tabName) {
-            // 隱藏所有內容
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // 移除所有按鈕的 active 狀態
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // 顯示選中的內容
-            document.getElementById(tabName).classList.add('active');
-            
-            // 設置對應按鈕為 active
-            event.target.classList.add('active');
-        }
-        
         // ============================================================
         // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
         //    • 正式版（Chrome Web Store）：fhgjojnifekiifaenchgammalffepbeg
@@ -244,7 +183,7 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre>
             // 網址可用 ?id=xxxx 覆寫；否則使用上方設定的預設 ID
             return urlParams.get('id') || DEFAULT_EXTENSION_ID;
         }
-        
+
         function copyInstall() {
             const command = document.getElementById('installCommand').textContent;
             // 補結尾換行：讓貼到 PowerShell 後最後一行會自動執行，不用再多按一次 Enter
@@ -253,22 +192,23 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre>
 
         function copyUninstall() {
             const command = document.getElementById('uninstallCommand').textContent;
-            // 補結尾換行：解除安裝指令最後一行同樣自動執行，不用再多按一次 Enter
             copyToClipboard(command + '\n', event.target);
         }
-        
+
         function copyToClipboard(text, btn) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.textContent;
-                btn.textContent = '✅ 已複製';
+                btn.textContent = '✅ 已複製!快去貼上';
                 btn.classList.add('copied');
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.classList.remove('copied');
-                }, 2000);
+                }, 2500);
+            }).catch(() => {
+                alert('複製失敗,請手動選取指令複製');
             });
         }
-        
+
         window.addEventListener('DOMContentLoaded', () => {
             const extensionId = getExtensionId();
             const command = generateInstallCommand(extensionId);
