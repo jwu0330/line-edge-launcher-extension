@@ -4,7 +4,10 @@ $ErrorActionPreference = "Stop"
 Write-Host "Building Chrome Extension..." -ForegroundColor Cyan
 
 $outputDir = "dist"
-$zipFile = "line-opener-pro.zip"
+$manifest = Get-Content "manifest.json" -Raw | ConvertFrom-Json
+$version = $manifest.version
+$dateStamp = Get-Date -Format "yyyy-MM-dd"
+$zipFile = "line-opener-pro-v$version-$dateStamp.zip"
 
 if (Test-Path $outputDir) { Remove-Item $outputDir -Recurse -Force }
 if (Test-Path $zipFile) { Remove-Item $zipFile -Force }
