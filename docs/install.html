@@ -60,14 +60,10 @@
   .help { margin-top: 40px; padding-top: 26px; border-top: 1px solid #ececec; }
   .help h4 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
   .help p { color: #5f6368; font-size: 14px; margin: 0 0 10px; }
-  .help label { display: block; font-size: 13px; color: #3c4043; font-weight: 600; margin: 16px 0 5px; }
-  .help input[type=email], .help textarea {
-    width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px;
-    font: inherit; font-size: 14px; color: #202124; }
-  .help input[type=email]:focus, .help textarea:focus { outline: none; border-color: #3568a0; }
-  .help textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
-  .help input[type=file] { display: block; font-size: 13px; color: #5f6368; margin-top: 2px; }
-  .mailstatus { display: none; margin-top: 14px; font-size: 14px; color: #1e8e3e;
+  .help textarea { width: 100%; min-height: 150px; resize: vertical; padding: 10px 12px;
+    border: 1px solid #dadce0; border-radius: 6px; font: inherit; font-size: 14px; color: #202124; line-height: 1.8; }
+  .help textarea:focus { outline: none; border-color: #3568a0; }
+  .mailstatus { display: none; margin-top: 14px; font-size: 13.5px; color: #1e8e3e;
                 background: #eaf5ec; border: 1px solid #cfe6d5; border-radius: 6px; padding: 12px 14px; line-height: 1.6; }
   .mailstatus.show { display: block; }
 
@@ -148,24 +144,15 @@
 
   <div class="help">
     <h4>還是不行嗎？</h4>
-    <p>填一下就好，按「寄出」直接送給我們，會盡快回覆你。</p>
-    <form action="https://formsubmit.co/jwu1008171@gmail.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_subject" value="Open LINE in Edge 問題回報">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_next" value="https://jwu0330.github.io/line-edge-launcher-extension/install.html?sent=1">
+    <p>把問題寫在下面，按「用 Gmail 寄給我」會開啟你的 Gmail 並帶入內容，直接按傳送即可。需要附截圖的話，在 Gmail 裡貼上或拖進去就行。</p>
+    <textarea id="msg">你遇到的問題是什麼：
 
-      <label>你的 Email（方便我們回覆你）</label>
-      <input type="email" name="email" autocomplete="email" placeholder="yourname@gmail.com" required>
+什麼時候發生的：
 
-      <label>問題描述</label>
-      <textarea name="message" placeholder="遇到什麼問題？什麼時候、在哪一步發生的？請盡量描述清楚。" required></textarea>
+在哪一步 / 哪個畫面：
 
-      <label>附上截圖（可選）</label>
-      <input type="file" name="attachment" accept="image/*">
-
-      <button type="submit" class="btn">寄出</button>
-    </form>
+請詳細描述：</textarea>
+    <button class="btn" onclick="sendGmail()">用 Gmail 寄給我</button>
     <p id="mailStatus" class="mailstatus"></p>
   </div>
 
@@ -215,15 +202,22 @@
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // 純前端：開啟使用者自己的 Gmail 撰寫視窗並帶入內容（不經任何後端 / 轉寄服務）
+  function sendGmail() {
+    var body = document.getElementById('msg').value || '';
+    try { navigator.clipboard.writeText(body); } catch (e) {}
+    var url = 'https://mail.google.com/mail/?view=cm&fs=1&to=jwu1008171@gmail.com'
+            + '&su=' + encodeURIComponent('Open LINE in Edge 問題回報')
+            + '&body=' + encodeURIComponent(body);
+    window.open(url, '_blank');
+    var st = document.getElementById('mailStatus');
+    st.classList.add('show');
+    st.innerHTML = '已在新分頁開啟 Gmail 並帶入內容，直接按「傳送」即可（需要附截圖就在信裡貼上）。<br>沒跳出 Gmail？內容已複製，請自行寄到 <b>jwu1008171@gmail.com</b>。';
+  }
+
   window.addEventListener('DOMContentLoaded', function () {
     document.getElementById('installCommand').textContent = generateInstallCommand(getExtensionId());
     document.getElementById('uninstallCommand').textContent = generateUninstallCommand();
-    if (new URLSearchParams(location.search).get('sent') === '1') {
-      var st = document.getElementById('mailStatus');
-      st.textContent = '已收到你的回報，謝謝！我們會盡快回覆你填寫的 Email。';
-      st.classList.add('show');
-      st.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
   });
 </script>
 </body>
