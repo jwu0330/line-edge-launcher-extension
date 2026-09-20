@@ -60,10 +60,12 @@
   .help { margin-top: 40px; padding-top: 26px; border-top: 1px solid #ececec; }
   .help h4 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
   .help p { color: #5f6368; font-size: 14px; margin: 0 0 10px; }
+  .help .btn { margin-top: 8px; }
   .help iframe { display: block; width: 100%; border: 1px solid #dadce0; border-radius: 8px; }
-  .reportlink { margin-top: 12px; font-size: 13px; color: #5f6368; }
-  .reportlink a { color: #1a73e8; text-decoration: none; }
-  .reportlink a:hover { text-decoration: underline; }
+  .help .reportlink { margin-top: 12px; font-size: 13px; color: #5f6368; }
+  .help .reportlink a { color: #1a73e8; text-decoration: none; }
+  .help .reportlink a:hover { text-decoration: underline; }
+  .help .reportnote { margin-top: 10px; font-size: 13px; color: #9aa0a6; }
 
   footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid #ececec;
            color: #5f6368; font-size: 13.5px; line-height: 1.9; }
@@ -142,12 +144,12 @@
 
   <div class="help">
     <h4>有問題嗎？歡迎回報</h4>
-    <p>填一下表單送出即可，我們會盡快處理。</p>
     <button class="btn" onclick="openReport(this)">填寫回報表單</button>
     <div id="reportBox" style="display:none; margin-top:14px;">
       <iframe id="reportFrame" src="" height="760" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
     </div>
     <p class="reportlink">也可以 <a href="https://forms.gle/6C9rBiEfZePsgSjK9" target="_blank" rel="noopener">用新分頁開啟表單</a>。</p>
+    <p class="reportnote">填一下、送出即可，我們會盡快處理。</p>
   </div>
 
   <footer>
