@@ -60,11 +60,16 @@
   .help { margin-top: 40px; padding-top: 26px; border-top: 1px solid #ececec; }
   .help h4 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
   .help p { color: #5f6368; font-size: 14px; margin: 0 0 10px; }
-  textarea { width: 100%; min-height: 158px; resize: vertical; padding: 10px 12px;
-             border: 1px solid #dadce0; border-radius: 6px; font: inherit; font-size: 14px; color: #202124; line-height: 1.8; }
-  textarea:focus { outline: none; border-color: #3568a0; }
-  .mailstatus { display: none; margin-top: 12px; font-size: 13.5px; color: #1e8e3e;
-                background: #eaf5ec; border: 1px solid #cfe6d5; border-radius: 6px; padding: 10px 12px; line-height: 1.6; }
+  .help label { display: block; font-size: 13px; color: #3c4043; font-weight: 600; margin: 16px 0 5px; }
+  .help input[type=email], .help textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px;
+    font: inherit; font-size: 14px; color: #202124; }
+  .help input[type=email]:focus, .help textarea:focus { outline: none; border-color: #3568a0; }
+  .help textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+  .help input[type=file] { display: block; font-size: 13px; color: #5f6368; margin-top: 2px; }
+  .mailstatus { display: none; margin-top: 14px; font-size: 14px; color: #1e8e3e;
+                background: #eaf5ec; border: 1px solid #cfe6d5; border-radius: 6px; padding: 12px 14px; line-height: 1.6; }
+  .mailstatus.show { display: block; }
 
   footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid #ececec;
            color: #5f6368; font-size: 13.5px; line-height: 1.9; }
@@ -143,17 +148,24 @@
 
   <div class="help">
     <h4>還是不行嗎？</h4>
-    <p>照下面幾點填寫，按「寄信給我」就會開啟郵件程式，把內容寄給我們協助處理。</p>
-    <textarea id="msg">你遇到的問題是什麼：
+    <p>填一下就好，按「寄出」直接送給我們，會盡快回覆你。</p>
+    <form action="https://formsubmit.co/jwu1008171@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="Open LINE in Edge 問題回報">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://jwu0330.github.io/line-edge-launcher-extension/install.html?sent=1">
 
-什麼時候發生的：
+      <label>你的 Email（方便我們回覆你）</label>
+      <input type="email" name="email" autocomplete="email" placeholder="yourname@gmail.com" required>
 
-在哪一步 / 哪個畫面：
+      <label>問題描述</label>
+      <textarea name="message" placeholder="遇到什麼問題？什麼時候、在哪一步發生的？請盡量描述清楚。" required></textarea>
 
-請詳細描述：
+      <label>附上截圖（可選）</label>
+      <input type="file" name="attachment" accept="image/*">
 
-你的 Email（方便我們回覆你）：</textarea>
-    <button class="btn" onclick="sendMail()">寄信給我</button>
+      <button type="submit" class="btn">寄出</button>
+    </form>
     <p id="mailStatus" class="mailstatus"></p>
   </div>
 
@@ -203,19 +215,15 @@
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function sendMail() {
-    var body = document.getElementById('msg').value || '';
-    var subject = 'Open LINE in Edge 問題回報';
-    try { navigator.clipboard.writeText(body); } catch (e) {}
-    window.location.href = 'mailto:jwu1008171@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    var st = document.getElementById('mailStatus');
-    st.style.display = 'block';
-    st.innerHTML = '已嘗試開啟你的郵件程式，請在信件裡按「送出」寄出。<br>若沒有跳出郵件程式：內容已自動複製，請直接貼到信件，寄到 <b>jwu1008171@gmail.com</b>。';
-  }
-
   window.addEventListener('DOMContentLoaded', function () {
     document.getElementById('installCommand').textContent = generateInstallCommand(getExtensionId());
     document.getElementById('uninstallCommand').textContent = generateUninstallCommand();
+    if (new URLSearchParams(location.search).get('sent') === '1') {
+      var st = document.getElementById('mailStatus');
+      st.textContent = '已收到你的回報，謝謝！我們會盡快回覆你填寫的 Email。';
+      st.classList.add('show');
+      st.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   });
 </script>
 </body>
