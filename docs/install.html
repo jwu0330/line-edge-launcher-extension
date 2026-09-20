@@ -1,233 +1,207 @@
-﻿﻿﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一鍵開啟 LINE - 安裝</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-                         "Microsoft JhengHei", Helvetica, Arial, sans-serif;
-            background: #f5f6f8; color: #201f1e; line-height: 1.6; font-size: 14px;
-            -webkit-font-smoothing: antialiased;
-        }
-        .page { max-width: 620px; margin: 0 auto; padding: 48px 20px; }
-        h1 { font-size: 22px; font-weight: 600; text-align: center; }
-        .sub { text-align: center; color: #605e5c; font-size: 14px; margin: 8px 0 28px; }
-        .hl { color: #3568a0; font-weight: 600; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一鍵開啟 LINE · 安裝</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", -apple-system, "Microsoft JhengHei", Arial, sans-serif;
+         color: #202124; background: #fff; line-height: 1.7; margin: 0; }
+  .wrap { max-width: 660px; margin: 0 auto; padding: 72px 36px; }
+  h1 { font-size: 25px; font-weight: 600; margin: 0 0 8px; }
+  .lead { color: #5f6368; margin: 0 0 52px; font-size: 15px; }
 
-        /* 上下排列的步驟 */
-        .steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-        .step {
-            display: flex; align-items: flex-start; gap: 14px;
-            background: #fff; border: 1px solid #e6e6e6; border-radius: 8px;
-            padding: 18px 20px; opacity: .5;
-            box-shadow: 0 1.6px 3.6px rgba(0,0,0,.05);
-            transition: opacity .3s ease, border-color .3s ease, box-shadow .3s ease;
-        }
-        .step.active { opacity: 1; border-color: #3568a0; box-shadow: 0 0 0 1px #3568a0, 0 3px 12px rgba(53,104,160,.14); }
-        .step.done { opacity: 1; }
-        .step:not(.active):not(.done) { pointer-events: none; }
+  /* 時間軸：圈圈 + 連接線 */
+  .steps { position: relative; margin: 0; padding: 0; list-style: none; }
+  .steps:before { content: ""; position: absolute; left: 16px; top: 12px; bottom: 56px; width: 2px; background: #e3e6ea; }
+  .steps li { position: relative; padding: 0 0 48px 56px; }
+  .dot { position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%;
+         background: #fff; border: 2px solid #3568a0; color: #3568a0; font-weight: 600;
+         display: flex; align-items: center; justify-content: center; z-index: 1;
+         transition: background .25s, border-color .25s, color .25s; }
+  .dot.done { background: #1e8e3e; border-color: #1e8e3e; color: #fff; }
 
-        .step-no {
-            flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
-            width: 28px; height: 28px; border-radius: 50%;
-            background: #3568a0; color: #fff; font-size: 14px; font-weight: 600;
-        }
-        .step.done .step-no { background: #3a7d44; }
+  h2 { font-size: 16px; font-weight: 600; margin: 5px 0 6px; color: #202124; }
+  p { margin: 0; color: #3c4043; font-size: 14.5px; }
+  .subline { color: #5f6368; font-size: 13.5px; margin-top: 4px; }
+  .note { margin-top: 12px; color: #5f6368; font-size: 14px; }
 
-        .step-body { flex: 1; }
-        .step-body h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-        .step-body p { color: #605e5c; }
+  .key { display: inline-flex; align-items: center; gap: 5px; border: 1px solid #dadce0;
+         border-radius: 4px; padding: 1px 7px; font-size: 13px; background: #f8f9fa; }
+  .winlogo rect { fill: #0078d4; }
+  .lit { background: #eef3f8; padding: 0 5px; border-radius: 3px; font-weight: 600; color: #202124; }
 
-        .step-check {
-            flex-shrink: 0; width: 24px; text-align: center;
-            color: #3a7d44; font-size: 20px; font-weight: 700;
-            opacity: 0; transform: scale(.4); transition: opacity .3s ease, transform .3s ease;
-        }
-        .step.done .step-check { opacity: 1; transform: scale(1); }
+  .btn { display: inline-block; margin-top: 16px; background: #fff; color: #3568a0;
+         border: 1px solid #3568a0; padding: 9px 18px; border-radius: 6px;
+         font-size: 13.5px; font-weight: 600; cursor: pointer;
+         transition: background .2s, color .2s, border-color .2s; }
+  .btn:hover { background: #eef3f8; }
+  .btn.done { background: #1e8e3e; border-color: #1e8e3e; color: #fff; }
 
-        .kbd {
-            display: inline-block; font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-            font-size: 12px; color: #201f1e; background: #f3f2f1;
-            border: 1px solid #d2d0ce; border-bottom-width: 2px; border-radius: 3px;
-            padding: 1px 5px; line-height: 1.4;
-        }
-        .btn {
-            display: block; width: 100%; margin-top: 14px;
-            background: #3568a0; color: #fff; border: 1px solid transparent;
-            border-radius: 4px; padding: 10px 12px; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: background .1s;
-        }
-        .btn:hover { background: #2d5987; }
-        .btn:active { background: #264b73; }
-        .btn.copied { background: #3a7d44; }
-        .btn.confirm { background: #fff; color: #3568a0; border: 1px solid #3568a0; margin-top: 8px; }
-        .btn.confirm:hover { background: #eef3f8; }
-        .btn.sm { width: auto; margin: 0 0 10px; padding: 6px 14px; font-size: 13px; }
+  .links { margin-top: 20px; font-size: 15px; }
+  .links a { color: #1a73e8; text-decoration: none; margin-right: 22px; cursor: pointer; }
+  .links a:hover { text-decoration: underline; }
 
-        .note {
-            margin-top: 20px; padding: 12px 16px;
-            background: #eef3f8; border: 1px solid #dbe6f0; border-left: 4px solid #3568a0;
-            border-radius: 4px; color: #605e5c; text-align: center;
-        }
+  /* 更多說明面板 */
+  .more { display: none; margin-top: 26px; padding-top: 8px; }
+  .more h4 { font-size: 14px; font-weight: 600; color: #202124; margin: 22px 0 8px; }
+  .more h4:first-child { margin-top: 4px; }
+  .more ul { padding-left: 18px; color: #5f6368; font-size: 14px; }
+  .more li { margin-bottom: 4px; }
+  .no { color: #a4262c; font-weight: 600; }
+  .code { background: #1e1e1e; color: #d4d4d4; border-radius: 6px; padding: 14px;
+          font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+          font-size: 13px; line-height: 1.55; max-height: 200px; overflow: auto; }
+  .code pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
+  .btn.sm { margin: 0 0 10px; padding: 6px 14px; }
 
-        details { margin-top: 22px; border-top: 1px solid #e6e6e6; padding-top: 16px; }
-        summary {
-            cursor: pointer; list-style: none; display: inline-block;
-            font-size: 14px; font-weight: 600; color: #3568a0; padding: 4px 0;
-        }
-        summary::-webkit-details-marker { display: none; }
-        summary::before { content: '▸ '; }
-        details[open] summary::before { content: '▾ '; }
-        .more { padding-top: 8px; }
-        .more h4 { font-weight: 600; color: #201f1e; margin: 16px 0 6px; }
-        .more h4:first-child { margin-top: 4px; }
-        .more ul { padding-left: 18px; color: #605e5c; }
-        .more li { margin-bottom: 4px; }
-        .no { color: #a4262c; font-weight: 600; }
-        .code {
-            background: #1e1e1e; color: #d4d4d4; border-radius: 6px; padding: 14px;
-            font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
-            font-size: 13px; line-height: 1.55; max-height: 200px; overflow: auto;
-        }
-        .code pre { margin: 0; white-space: pre-wrap; word-break: break-all; }
+  /* 還是不行？寄信 */
+  .help { margin-top: 40px; padding-top: 26px; border-top: 1px solid #ececec; }
+  .help h4 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+  .help p { color: #5f6368; font-size: 14px; margin: 0 0 10px; }
+  textarea { width: 100%; min-height: 72px; resize: vertical; padding: 10px 12px;
+             border: 1px solid #dadce0; border-radius: 6px; font: inherit; font-size: 14px; color: #202124; }
+  textarea:focus { outline: none; border-color: #3568a0; }
 
-        /* 指向右上角擴充圖示的箭頭 */
-        .pointer { position: fixed; top: 4px; right: 64px; z-index: 50; text-align: center; display: none; }
-        .pointer.show { display: block; animation: bob 1.1s ease-in-out infinite; }
-        .pointer-arrow { font-size: 30px; line-height: 1; color: #3568a0; }
-        .pointer-label {
-            margin-top: 2px; font-size: 12px; font-weight: 600; color: #3568a0; white-space: nowrap;
-            background: #fff; border: 1px solid #3568a0; border-radius: 12px; padding: 2px 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.12);
-        }
-        @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-    </style>
+  footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid #ececec;
+           color: #5f6368; font-size: 13.5px; line-height: 1.9; }
+  footer a { color: #1a73e8; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .copyright { color: #9aa0a6; font-size: 12px; margin-top: 6px; }
+
+  /* 右上角指向擴充圖示的箭頭 */
+  .pointer { position: fixed; top: 6px; right: 60px; z-index: 50; text-align: center; display: none; }
+  .pointer.show { display: block; animation: bob 1.1s ease-in-out infinite; }
+  .pointer-arrow { font-size: 30px; line-height: 1; color: #3568a0; }
+  .pointer-label { margin-top: 2px; font-size: 12px; font-weight: 600; color: #3568a0; white-space: nowrap;
+                   background: #fff; border: 1px solid #3568a0; border-radius: 12px; padding: 2px 10px;
+                   box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+</style>
 </head>
 <body>
-    <div class="pointer" id="topPointer">
-        <div class="pointer-arrow">↑</div>
-        <div class="pointer-label">擴充圖示在這裡</div>
-    </div>
+<div class="pointer" id="topPointer">
+  <div class="pointer-arrow">↑</div>
+  <div class="pointer-label">在這裡按一下</div>
+</div>
 
-    <div class="page">
-        <h1>一鍵開啟 LINE</h1>
-        <p class="sub">設定一次，日後點擴充圖示即以 <span class="hl">Edge</span> 開啟 LINE</p>
+<div class="wrap">
+  <h1>一鍵開啟 LINE</h1>
+  <p class="lead">設定一次，之後點瀏覽器的擴充圖示，就會用 Edge 開啟 LINE。</p>
 
-        <ol class="steps">
-            <li class="step active" id="step1">
-                <div class="step-no">1</div>
-                <div class="step-body">
-                    <h3>開啟 PowerShell</h3>
-                    <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span>（PowerShell 是 Windows 內建，免安裝）</p>
-                    <button class="btn" onclick="copyTerminal()">複製「powershell」</button>
-                </div>
-                <div class="step-check">✓</div>
-            </li>
+  <ul class="steps">
+    <li id="s1">
+      <div class="dot" id="dot1">1</div>
+      <h2>開啟 PowerShell</h2>
+      <p>按 <span class="key"><svg class="winlogo" viewBox="0 0 24 24" width="13" height="13"><rect x="1" y="1" width="10" height="10"/><rect x="13" y="1" width="10" height="10"/><rect x="1" y="13" width="10" height="10"/><rect x="13" y="13" width="10" height="10"/></svg>Windows 鍵</span>，輸入文字 <span class="lit">powershell</span>，再按 Enter。</p>
+      <p class="subline">可以直接打字輸入，或按下面按鈕複製後貼上。</p>
+      <button class="btn" onclick="copyBtn(this,'powershell','powershell','dot1')">複製文字「powershell」</button>
+    </li>
 
-            <li class="step" id="step2">
-                <div class="step-no">2</div>
-                <div class="step-body">
-                    <h3>執行安裝指令</h3>
-                    <p>複製下方按鈕 → PowerShell <span class="kbd">Ctrl</span>+<span class="kbd">V</span> → <span class="kbd">Enter</span>；只需一次，跑完關掉視窗即可</p>
-                    <button class="btn" onclick="copyInstall()">複製自動化執行指令</button>
-                    <button class="btn confirm" onclick="confirmStep2()">執行完了，確認完成</button>
-                </div>
-                <div class="step-check">✓</div>
-            </li>
+    <li id="s2">
+      <div class="dot" id="dot2">2</div>
+      <h2>執行安裝指令</h2>
+      <p>在 PowerShell 視窗按 Ctrl + V 貼上，再按 Enter。</p>
+      <p class="subline">只需執行一次，跑完把視窗關掉即可，不用理它。</p>
+      <button class="btn" onclick="copyBtn(this, document.getElementById('installCommand').textContent + '\n', '安裝指令', 'dot2')">複製安裝指令</button>
+    </li>
 
-            <li class="step" id="step3">
-                <div class="step-no">3</div>
-                <div class="step-body">
-                    <h3>開始使用</h3>
-                    <p>點畫面<span class="hl">右上角的擴充圖示</span>（見上方箭頭），LINE 會在 <span class="hl">Edge</span> 開啟。</p>
-                </div>
-                <div class="step-check">✓</div>
-            </li>
-        </ol>
+    <li id="s3">
+      <div class="dot" id="dot3">3</div>
+      <h2>開始使用</h2>
+      <p>點瀏覽器<b>右上角的擴充圖示</b>（見右上角箭頭），LINE 就會在 Edge 開啟。</p>
+      <p class="note">提醒：LINE 會在 <b>Edge</b> 開啟，不是 Chrome。</p>
+      <button class="btn" onclick="confirmDone(this)">確認已完成</button>
+    </li>
+  </ul>
 
-        <div class="note">LINE 會在 Edge 開啟，不是 Chrome</div>
+  <p class="links">
+    <a onclick="showMore('cmd')">安裝指令內容</a>
+    <a onclick="showMore('faq')">常見問題</a>
+    <a onclick="showMore('uninstall')">解除安裝</a>
+  </p>
 
-        <details>
-            <summary>更多說明（安裝指令 / 常見問題 / 解除安裝）</summary>
-            <div class="more">
-                <h4>指令內容</h4>
-                <div class="code"><pre id="installCommand">載入中...</pre></div>
+  <section class="more" id="morePanel">
+    <h4 id="cmd">安裝指令內容</h4>
+    <div class="code"><pre id="installCommand">載入中...</pre></div>
 
-                <h4>第一次開 Edge 若跳出視窗</h4>
-                <ul>
-                    <li>登入 / 用 Google 帳戶 → <span class="no">不用登入</span>，關掉</li>
-                    <li>設為預設瀏覽器 → <span class="no">選「否」</span></li>
-                    <li>歡迎畫面 / 匯入資料 → <span class="no">直接關掉</span></li>
-                    <li>要安裝 LINE 擴充時，請<span class="no">在 Edge</span> 開啟連結安裝（不要在 Chrome 裝）</li>
-                </ul>
+    <h4 id="faq">常見問題 · 第一次開 Edge 若跳出視窗</h4>
+    <ul>
+      <li>登入 / 用 Google 帳戶 → <span class="no">不用登入</span>，關掉</li>
+      <li>設為預設瀏覽器 → <span class="no">選「否」</span></li>
+      <li>歡迎畫面 / 匯入資料 → <span class="no">直接關掉</span></li>
+      <li>要安裝 LINE 擴充時，請<span class="no">在 Edge</span> 開啟連結安裝（不要在 Chrome 裝）</li>
+    </ul>
 
-                <h4>解除安裝</h4>
-                <button class="btn sm" onclick="copyUninstall()">複製解除安裝指令</button>
-                <div class="code"><pre id="uninstallCommand">Remove-Item "$env:LOCALAPPDATA\LineOpenerPro" -Recurse -Force
-reg delete "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.line.opener" /f
-Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
-            </div>
-        </details>
-    </div>
+    <h4 id="uninstall">解除安裝</h4>
+    <button class="btn sm" onclick="copyBtn(this, document.getElementById('uninstallCommand').textContent + '\n', '解除安裝指令')">複製解除安裝指令</button>
+    <div class="code"><pre id="uninstallCommand">載入中...</pre></div>
+  </section>
 
-    <script src="install-script.js"></script>
-    <script>
-        // ============================================================
-        // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
-        //    • 正式版（Chrome Web Store，目前使用）：fhgjojnifekiifaenchgammalffepbeg
-        //    • 測試版（載入未封裝項目）：ID 依資料夾路徑而定、每台機器不同（見 HANDOFF P2），
-        //      本機測試請用 install.html?id=<未封裝ID> 覆寫，不要改動下面的正式預設值。
-        // ============================================================
-        const DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'; // ← 目前：正式版（Web Store）
+  <div class="help">
+    <h4>還是不行嗎？</h4>
+    <p>請描述你遇到的狀況，我們會協助處理。</p>
+    <textarea id="msg" placeholder="例如：點了圖示沒反應 / 一直顯示需要更新…"></textarea>
+    <button class="btn" onclick="sendMail()">寄信給我</button>
+  </div>
 
-        function getExtensionId() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('id') || DEFAULT_EXTENSION_ID;
-        }
+  <footer>
+    <p>有任何問題、建議或錯誤回報，歡迎聯絡我們：<a href="mailto:jwu1008171@gmail.com">jwu1008171@gmail.com</a></p>
+    <p class="copyright">Open LINE in Edge (Pro)</p>
+  </footer>
+</div>
 
-        // 步驟精靈：完成一步 → 打勾，下一步亮起
-        function markDone(n) {
-            const s = document.getElementById('step' + n);
-            if (s) { s.classList.remove('active'); s.classList.add('done'); }
-        }
-        function activate(n) {
-            const s = document.getElementById('step' + n);
-            if (s) s.classList.add('active');
-        }
-        function completeStep1() { markDone(1); activate(2); }
-        function completeStep2() {
-            markDone(2); activate(3);
-            document.getElementById('topPointer').classList.add('show');
-        }
+<script src="install-script.js"></script>
+<script>
+  // ============================================================
+  // ⚙️ 設定區：擴充功能 ID（要切換版本只需改「這一個地方」）
+  //    • 正式版（Chrome Web Store，目前使用）：fhgjojnifekiifaenchgammalffepbeg
+  //    • 測試版（載入未封裝項目）：ID 依資料夾路徑而定、每台機器不同（見 HANDOFF P2），
+  //      本機測試請用 install.html?id=<未封裝ID> 覆寫，不要改動下面的正式預設值。
+  // ============================================================
+  const DEFAULT_EXTENSION_ID = 'fhgjojnifekiifaenchgammalffepbeg'; // ← 目前：正式版（Web Store）
 
-        function copyTerminal() {
-            copyToClipboard('powershell', event.target, '已複製！按 Win 鍵貼上開啟');
-            completeStep1();
-        }
-        function copyInstall() {
-            const command = document.getElementById('installCommand').textContent;
-            copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
-        }
-        function confirmStep2() { completeStep2(); }
-        function copyUninstall() {
-            const command = document.getElementById('uninstallCommand').textContent;
-            copyToClipboard(command + '\n', event.target, '已複製！回終端機貼上');
-        }
-        function copyToClipboard(text, btn, doneText) {
-            navigator.clipboard.writeText(text).then(() => {
-                const t = btn.textContent;
-                btn.textContent = doneText || '已複製';
-                btn.classList.add('copied');
-                setTimeout(() => { btn.textContent = t; btn.classList.remove('copied'); }, 2500);
-            }).catch(() => alert('複製失敗，請手動選取指令複製'));
-        }
+  function getExtensionId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id') || DEFAULT_EXTENSION_ID;
+  }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('installCommand').textContent = generateInstallCommand(getExtensionId());
-        });
-    </script>
+  // 可重複複製：按下變綠並顯示「已複製…」，2 秒後復原，可再按；dotId 有給就把該步圈圈打勾
+  function copyBtn(btn, text, label, dotId) {
+    try { navigator.clipboard.writeText(text); } catch (e) {}
+    if (dotId) { var d = document.getElementById(dotId); if (d) { d.classList.add('done'); d.textContent = '✓'; } }
+    if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+    btn.classList.add('done');
+    btn.textContent = '✓ 已複製「' + label + '」';
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () { btn.classList.remove('done'); btn.textContent = btn.dataset.label; }, 2000);
+  }
+
+  // step 3 確認已完成 → 打勾 + 右上角箭頭出現提醒點圖示
+  function confirmDone(btn) {
+    var d = document.getElementById('dot3'); if (d) { d.classList.add('done'); d.textContent = '✓'; }
+    document.getElementById('topPointer').classList.add('show');
+    btn.classList.add('done');
+    btn.textContent = '✓ 完成！請點右上角的擴充圖示';
+  }
+
+  function showMore(id) {
+    document.getElementById('morePanel').style.display = 'block';
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function sendMail() {
+    var body = encodeURIComponent(document.getElementById('msg').value || '');
+    var subject = encodeURIComponent('Open LINE in Edge 問題回報');
+    window.location.href = 'mailto:jwu1008171@gmail.com?subject=' + subject + '&body=' + body;
+  }
+
+  window.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('installCommand').textContent = generateInstallCommand(getExtensionId());
+    document.getElementById('uninstallCommand').textContent = generateUninstallCommand();
+  });
+</script>
 </body>
 </html>

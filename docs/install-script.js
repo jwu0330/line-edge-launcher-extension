@@ -175,3 +175,11 @@ function generateInstallCommand(extensionId) {
 
     return cmd;
 }
+
+// 產生「解除安裝指令」（與安裝指令分開，供安裝頁動態填入；避免把敏感字串寫死在 install.html 原始碼）
+function generateUninstallCommand() {
+    var cmd = 'Remove-Item "$env:LOCALAPPDATA\\LineOpenerPro" -Recurse -Force\n';
+    cmd += 'reg delete "HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com.line.opener" /f\n';
+    cmd += 'Write-Host "已解除安裝" -ForegroundColor Green';
+    return cmd;
+}
