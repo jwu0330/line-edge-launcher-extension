@@ -60,9 +60,11 @@
   .help { margin-top: 40px; padding-top: 26px; border-top: 1px solid #ececec; }
   .help h4 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
   .help p { color: #5f6368; font-size: 14px; margin: 0 0 10px; }
-  textarea { width: 100%; min-height: 72px; resize: vertical; padding: 10px 12px;
-             border: 1px solid #dadce0; border-radius: 6px; font: inherit; font-size: 14px; color: #202124; }
+  textarea { width: 100%; min-height: 158px; resize: vertical; padding: 10px 12px;
+             border: 1px solid #dadce0; border-radius: 6px; font: inherit; font-size: 14px; color: #202124; line-height: 1.8; }
   textarea:focus { outline: none; border-color: #3568a0; }
+  .mailstatus { display: none; margin-top: 12px; font-size: 13.5px; color: #1e8e3e;
+                background: #eaf5ec; border: 1px solid #cfe6d5; border-radius: 6px; padding: 10px 12px; line-height: 1.6; }
 
   footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid #ececec;
            color: #5f6368; font-size: 13.5px; line-height: 1.9; }
@@ -141,9 +143,18 @@
 
   <div class="help">
     <h4>還是不行嗎？</h4>
-    <p>請描述你遇到的狀況，我們會協助處理。</p>
-    <textarea id="msg" placeholder="例如：點了圖示沒反應 / 一直顯示需要更新…"></textarea>
+    <p>照下面幾點填寫，按「寄信給我」就會開啟郵件程式，把內容寄給我們協助處理。</p>
+    <textarea id="msg">你遇到的問題是什麼：
+
+什麼時候發生的：
+
+在哪一步 / 哪個畫面：
+
+請詳細描述：
+
+你的 Email（方便我們回覆你）：</textarea>
     <button class="btn" onclick="sendMail()">寄信給我</button>
+    <p id="mailStatus" class="mailstatus"></p>
   </div>
 
   <footer>
@@ -193,9 +204,13 @@
   }
 
   function sendMail() {
-    var body = encodeURIComponent(document.getElementById('msg').value || '');
-    var subject = encodeURIComponent('Open LINE in Edge 問題回報');
-    window.location.href = 'mailto:jwu1008171@gmail.com?subject=' + subject + '&body=' + body;
+    var body = document.getElementById('msg').value || '';
+    var subject = 'Open LINE in Edge 問題回報';
+    try { navigator.clipboard.writeText(body); } catch (e) {}
+    window.location.href = 'mailto:jwu1008171@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    var st = document.getElementById('mailStatus');
+    st.style.display = 'block';
+    st.innerHTML = '已嘗試開啟你的郵件程式，請在信件裡按「送出」寄出。<br>若沒有跳出郵件程式：內容已自動複製，請直接貼到信件，寄到 <b>jwu1008171@gmail.com</b>。';
   }
 
   window.addEventListener('DOMContentLoaded', function () {
