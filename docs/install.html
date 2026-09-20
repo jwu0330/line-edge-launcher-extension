@@ -120,9 +120,9 @@
             <li class="step active" id="step1">
                 <div class="step-no">1</div>
                 <div class="step-body">
-                    <h3>開啟終端機</h3>
-                    <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span></p>
-                    <button class="btn" onclick="copyTerminal()">複製「終端機」</button>
+                    <h3>開啟 PowerShell</h3>
+                    <p>複製下方按鈕 → 按 <span class="kbd">Win</span> → 貼上 → <span class="kbd">Enter</span>（PowerShell 是 Windows 內建，免安裝）</p>
+                    <button class="btn" onclick="copyTerminal()">複製「powershell」</button>
                 </div>
                 <div class="step-check">✓</div>
             </li>
@@ -204,7 +204,7 @@ Write-Host "已解除安裝" -ForegroundColor Green</pre></div>
         }
 
         function copyTerminal() {
-            copyToClipboard('終端機', event.target, '已複製！按 Win 鍵貼上');
+            copyToClipboard('powershell', event.target, '已複製！按 Win 鍵貼上開啟');
             completeStep1();
         }
         function copyInstall() {
